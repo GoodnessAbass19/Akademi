@@ -26,7 +26,7 @@ const Pagination = ({ page, count }: { page: number; count: number }) => {
           onClick={() => {
             changePage(page - 1);
           }}
-          className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          className="md:py-2 md:px-4 p-1 rounded-md bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Image
             src={"/icons/dropdown.png"}
@@ -60,7 +60,7 @@ const Pagination = ({ page, count }: { page: number; count: number }) => {
         </div>
         <button
           disabled={!hasNext}
-          className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          className="md:py-2 md:px-4 p-1 rounded-md bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => {
             changePage(page + 1);
           }}

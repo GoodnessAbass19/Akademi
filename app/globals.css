@@ -153,6 +153,10 @@ body {
   color: black !important;
 }
 
+.rbc-calendar {
+  height: 100% !important;
+}
+
 .rbc-btn-group:first-child {
   display: none !important;
 }

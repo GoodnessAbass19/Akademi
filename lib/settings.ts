@@ -22,6 +22,20 @@ export const routeAccessMap: RouteAccessMap = {
   "/list/announcements": ["admin", "teacher", "student", "parent"],
 };
 
+export const ordinal = (n: number) => {
+  if (n > 3 && n < 21) return "th"; // covers 11th-13th
+  switch (n % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+};
+
 export function formatDate(dateString: string | number | Date) {
   const date = new Date(dateString);
 
