@@ -140,6 +140,7 @@ body {
 
 .react-calendar {
   width: 100% !important;
+  /* height: 100% !important; */
   border: none !important;
   font-family: "Inter", sans-serif !important;
 }
@@ -149,8 +150,22 @@ body {
 }
 
 .react-calendar__tile--active {
-  background-color: #c3ebfa !important;
-  color: black !important;
+  background-color: #4d44b5 !important;
+  color: white !important;
+  border: 1px solid #303972 !important;
+}
+
+.react-calendar__tile--now {
+  background-color: #fcc43e !important;
+  color: white !important;
+  border: 1px solid #303972 !important;
+  padding: 10px !important;
+}
+
+.react-calendar button {
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .rbc-calendar {

@@ -3,15 +3,13 @@ import CountChart from "./CountChart";
 import prisma from "@/lib/prisma";
 
 const CountChartContainer = async () => {
-  //   const data = await prisma.student.groupBy({
-  //     by: ["sex"],
-  //     _count: true,
-  //   });
+  const data = await prisma.student.groupBy({
+    by: ["sex"],
+    _count: true,
+  });
 
-  //   const boys = data.find((d) => d.sex === "MALE")?._count || 0;
-  //   const girls = data.find((d) => d.sex === "FEMALE")?._count || 0;
-  const boys = 25;
-  const girls = 30;
+  const boys = data.find((d) => d.sex === "MALE")?._count || 0;
+  const girls = data.find((d) => d.sex === "FEMALE")?._count || 0;
 
   return (
     <div className="bg-white rounded-xl w-full h-full p-4">

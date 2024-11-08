@@ -29,9 +29,11 @@ const TeacherCard = ({ data }: { data: TeacherList }) => {
           className="rounded-full object-cover object-top w-[120px] h-[120px]"
         />
         <div className="gap-2.5 flex flex-col items-center">
-          <h2 className="font-semibold text-[#4D44B5] capitalize text-xl">
-            {data.name}
-          </h2>
+          <Link href={`/list/teachers/${data.id}`}>
+            <h2 className="font-semibold text-[#4D44B5] capitalize text-xl">
+              {data.name}
+            </h2>
+          </Link>
 
           <span className="text-sm font-normal text-[A098AE]">
             {data.subjects.map((subject) => subject.name).join(",")}

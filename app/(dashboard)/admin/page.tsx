@@ -1,3 +1,4 @@
+import Announcements from "@/components/ui/Announcement";
 import AttendanceChartContainer from "@/components/ui/AttendanceChartContainer";
 import CountChartContainer from "@/components/ui/CountChartContainer";
 import EventCalendar from "@/components/ui/EventCalendar";
@@ -39,8 +40,8 @@ const AdminPage = ({
       </div>
       {/* Right side of the screen */}
       <div className="w-full lg:w-1/3 flex flex-col gap-8">
-        <EventCalendarContainer />
-        {/* <Announcements /> */}
+        <EventCalendarContainer searchParams={searchParams} />
+        <Announcements />
       </div>
     </div>
   );
