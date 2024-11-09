@@ -1,9 +1,9 @@
 import Pagination from "@/components/ui/Pagination";
 import TableSearch from "@/components/ui/Search";
 import TeacherCard from "@/components/ui/TeacherCard";
-import { role, teachersData } from "@/lib/data";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
+import { auth } from "@clerk/nextjs/server";
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
 
@@ -12,6 +12,9 @@ const TeacherPage = async ({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) => {
+  const { userId, sessionClaims } = await auth();
+  const role = (sessionClaims?.metadata as { role?: string })?.role;
+
   const { page, ...queryParams } = searchParams;
   const p = page ? parseInt(page) : 1;
 

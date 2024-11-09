@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/elements": "^0.18.0",
+    "@clerk/elements": "^0.18.5",
     "@clerk/nextjs": "^6.2.1",
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.9.1",
