@@ -75,11 +75,12 @@ export function formatDate(dateString: string | number | Date) {
 export function getTimeWithAmPm(dateString: string | number | Date) {
   const date = new Date(dateString);
 
-  let hours = date.getHours();
-  const minutes = date.getMinutes();
+  // Use UTC methods to get hours and minutes
+  let hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
   const amPm = hours >= 12 ? "PM" : "AM";
 
-  // Convert 24-hour time to 12-hour format
+  // Convert to 12-hour format
   hours = hours % 12 || 12; // '0' becomes '12'
 
   // Pad minutes with leading zero if needed
@@ -87,6 +88,9 @@ export function getTimeWithAmPm(dateString: string | number | Date) {
 
   return `${hours}:${formattedMinutes} ${amPm}`;
 }
+
+// const formattedTime = getTimeWithAmPm('2024-11-08T09:47:31.369Z');
+// console.log(formattedTime); // "9:47 AM"
 
 // const formattedTime = getTimeWithAmPm('2024-11-02T19:49:14.181Z');
 // console.log(formattedTime); // "7:49 PM"
@@ -139,15 +143,15 @@ const adjustScheduleToCurrentWeek = (
 
     adjustedStartDate.setDate(latestMonday.getDate() + daysFromMonday);
     adjustedStartDate.setHours(
-      lesson.start.getHours(),
-      lesson.start.getMinutes(),
-      lesson.start.getSeconds()
+      lesson.start.getUTCHours(),
+      lesson.start.getUTCMinutes(),
+      lesson.start.getUTCSeconds()
     );
     const adjustedEndDate = new Date(adjustedStartDate);
     adjustedEndDate.setHours(
-      lesson.end.getHours(),
-      lesson.end.getMinutes(),
-      lesson.end.getSeconds()
+      lesson.end.getUTCHours(),
+      lesson.end.getUTCMinutes(),
+      lesson.end.getUTCSeconds()
     );
 
     return {

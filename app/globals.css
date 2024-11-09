@@ -152,13 +152,11 @@ body {
 .react-calendar__tile--active {
   background-color: #4d44b5 !important;
   color: white !important;
-  border: 1px solid #303972 !important;
 }
 
 .react-calendar__tile--now {
   background-color: #fcc43e !important;
   color: white !important;
-  border: 1px solid #303972 !important;
   padding: 10px !important;
 }
 
