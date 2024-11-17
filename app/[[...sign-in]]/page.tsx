@@ -25,7 +25,7 @@ const LoginPage = () => {
       <SignIn.Root>
         <SignIn.Step
           name="start"
-          className="bg-white p-12 rounded-md shadow-2xl flex flex-col gap-2 w-[350px]"
+          className="bg-white p-12 rounded-md shadow-2xl flex flex-col gap-2 w-[]"
         >
           <h1 className="text-xl font-bold flex items-center gap-2">
             <Image src="/logo.svg" alt="" width={24} height={24} />

@@ -3,13 +3,14 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
+import { FormContainerProps } from "./FormContainer";
 
 // USE LAZY LOADING
 
 // import TeacherForm from "./forms/TeacherForm";
 // import StudentForm from "./forms/StudentForm";
 
-const TeacherForm = dynamic(() => import("../forms/TeacherForm"), {
+const TeacherForm = dynamic(() => import("../forms/NewForm"), {
   loading: () => <h1>Loading...</h1>,
 });
 // const StudentForm = dynamic(() => import("./forms/StudentForm"), {
@@ -17,9 +18,15 @@ const TeacherForm = dynamic(() => import("../forms/TeacherForm"), {
 // });
 
 const forms: {
-  [key: string]: (type: "create" | "update", data?: any) => JSX.Element;
+  [key: string]: (
+    type: "create" | "update",
+    data?: any,
+    relatedData?: any
+  ) => JSX.Element;
 } = {
-  teacher: (type, data) => <TeacherForm type={type} data={data} />,
+  teacher: (type, data, relatedData) => (
+    <TeacherForm type={type} data={data} relatedData={relatedData} />
+  ),
   //   student: (type, data) => <StudentForm type={type} data={data} />
 };
 
@@ -28,24 +35,7 @@ const FormModal = ({
   type,
   data,
   id,
-}: {
-  table:
-    | "teacher"
-    | "student"
-    | "parent"
-    | "subject"
-    | "class"
-    | "lesson"
-    | "exam"
-    | "assignment"
-    | "result"
-    | "attendance"
-    | "event"
-    | "announcement";
-  type: "create" | "update" | "delete";
-  data?: any;
-  id?: number | string;
-}) => {
+}: FormContainerProps & { relatedData?: any }) => {
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
   const bgColor =
     type === "create"
@@ -83,10 +73,10 @@ const FormModal = ({
       </button>
       {open && (
         <div className="w-screen h-screen absolute left-0 top-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+          <div className="bg-white p-6 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[60%] h-screen overflow-y-scroll">
             <Form />
             <div
-              className="absolute top-4 right-4 cursor-pointer"
+              className="absolute top-2 right-2 cursor-pointer"
               onClick={() => setOpen(false)}
             >
               <Image src="/icons/close.png" alt="" width={14} height={14} />

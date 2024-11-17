@@ -1,3 +1,5 @@
+export const GenderOptions = ["Male", "Female"];
+
 enum Day {
   MONDAY = "MONDAY",
   TUESDAY = "TUESDAY",
