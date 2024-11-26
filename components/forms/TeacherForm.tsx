@@ -80,6 +80,7 @@ const TeacherForm = ({
   }, [state, router, type]);
 
   const { subjects } = relatedData;
+  console.log(subjects);
 
   return (
     <Form {...form}>
@@ -266,18 +267,18 @@ const TeacherForm = ({
 
             {/* Teacher Subjects */}
             <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
-              <CustomFormField
+              {/* <CustomFormField
                 fieldType={FormFieldType.SELECT}
                 control={form.control}
                 name="subjects"
                 label="Teacher Subjects"
                 placeholder="Subjects"
               >
-                {/* {Doctors.map((doctor, i) => (
+                {subjects.map((doctor, i) => (
               <SelectItem key={doctor.name + i} value={doctor.name}>
                 <div className="flex cursor-pointer items-center gap-2">
                   <Image
-                    src={doctor.image}
+                    src={doctor.img}
                     width={32}
                     height={32}
                     alt="doctor"
@@ -286,8 +287,29 @@ const TeacherForm = ({
                   <p>{doctor.name}</p>
                 </div>
               </SelectItem>
-            ))} */}
-              </CustomFormField>
+            ))}
+              </CustomFormField> */}
+
+              <div className="flex flex-col gap-2 w-full md:w-1/4">
+                <label className="text-xs text-gray-500">Subjects</label>
+                <select
+                  multiple
+                  className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+                  {...form.register("subjects")}
+                  defaultValue={data?.subjects}
+                >
+                  {subjects.map((subject: { id: number; name: string }) => (
+                    <option value={subject.id} key={subject.id}>
+                      {subject.name}
+                    </option>
+                  ))}
+                </select>
+                {/* {errors.subjects?.message && (
+                  <p className="text-xs text-red-400">
+                    {errors.subjects.message.toString()}
+                  </p>
+                )} */}
+              </div>
             </div>
           </div>
         </div>
