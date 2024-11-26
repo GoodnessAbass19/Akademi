@@ -350,7 +350,7 @@ const TeacherForm = ({
     subjects?: string[] | undefined;
   }) => {
     console.log(data);
-    formAction({ ...data, img: img?.secure_url });
+    // formAction({ ...data, img: img?.secure_url });
   };
   const router = useRouter();
 
@@ -379,8 +379,8 @@ const TeacherForm = ({
     />
   );
 
-  // const { subjects } = relatedData;
-  console.log("relatedData in TeacherForm:", relatedData);
+  const { subjects } = relatedData;
+  // console.log(subjects);
 
   return (
     <Form {...form}>
@@ -467,30 +467,38 @@ const TeacherForm = ({
               )}
               <CldUploadWidget
                 uploadPreset="school"
-                onSuccess={(result) => setImg(result.info)}
+                onSuccess={(result, { widget }) => {
+                  setImg(result.info);
+                  widget.close();
+                }}
               >
-                {({ open }) => (
-                  <div>
-                    {img ? (
-                      <Image
-                        src={img?.secure_url}
-                        alt="Uploaded Image"
-                        width={200}
-                        height={200}
-                      />
-                    ) : (
-                      <div className="cursor-pointer flex items-center gap-2 text-xs text-gray-500">
+                {({ open }) => {
+                  return (
+                    <div>
+                      {img ? (
                         <Image
-                          src="/icons/upload.png"
-                          alt=""
-                          width={28}
-                          height={28}
+                          src={img?.secure_url}
+                          alt="img"
+                          width={200}
+                          height={200}
                         />
-                        <span>Upload a photo</span>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      ) : (
+                        <div
+                          className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+                          onClick={() => open()}
+                        >
+                          <Image
+                            src="/icons/upload.png"
+                            alt=""
+                            width={28}
+                            height={28}
+                          />
+                          <span>Upload a photo</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }}
               </CldUploadWidget>
             </div>
             <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
@@ -499,7 +507,7 @@ const TeacherForm = ({
                 "birthday",
                 "Date of Birth"
               )}
-              <CustomFormField
+              {/* <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.SKELETON}
                 name="sex"
@@ -525,22 +533,56 @@ const TeacherForm = ({
                     </RadioGroup>
                   </FormControl>
                 )}
-              />
+              /> */}
+
+              <div>
+                <label className="text-xs text-gray-500">Sex</label>
+                <select
+                  className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+                  {...form.register("sex")}
+                  defaultValue={data?.sex}
+                >
+                  <option value="MALE">Male</option>
+                  <option value="FEMALE">Female</option>
+                </select>
+              </div>
             </div>
             <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
-              <CustomFormField
+              <div>
+                <label className="text-xs text-gray-500">Subjects</label>
+                <select
+                  multiple
+                  className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+                  {...form.register("subjects")}
+                  defaultValue={data?.subjects}
+                >
+                  {subjects.map((subject: { id: number; name: string }) => (
+                    <option value={subject.id} key={subject.id}>
+                      {subject.name}
+                    </option>
+                  ))}
+                </select>
+                {/* {errors.subjects?.message && (
+                  <p className="text-xs text-red-400">
+                    {errors.subjects.message.toString()}
+                  </p>
+                )} */}
+              </div>
+              {/* <CustomFormField
                 fieldType={FormFieldType.SELECT}
                 control={form.control}
                 name="subjects"
                 label="Teacher Subjects"
                 placeholder="Select subjects"
               >
-                {relatedData?.subjects.map((subject: string) => (
-                  <SelectItem key={subject} value={subject}>
-                    {subject}
-                  </SelectItem>
-                ))}
-              </CustomFormField>
+                {relatedData?.subjects.map(
+                  (subject: { id: number; name: string }) => (
+                    <SelectItem key={subject.id} value={subject.id}>
+                      {subject.name}
+                    </SelectItem>
+                  )
+                )}
+              </CustomFormField> */}
             </div>
           </div>
         </div>

@@ -40,6 +40,8 @@ interface CustomProps {
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode;
   fieldType: FormFieldType;
+  defaultValue?: string;
+  register?: string;
 }
 
 export enum FormFieldType {
@@ -73,6 +75,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             <Input
               placeholder={props.placeholder}
               {...field}
+              defaultValue={props.defaultValue}
               className="bg-[#f4f4f4] placeholder:text-dark-600 border-dark-500 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 border-0"
             />
           </FormControl>
@@ -93,11 +96,11 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           <PhoneInput
-            defaultCountry="US"
+            defaultCountry="NG"
             placeholder={props.placeholder}
             international
             withCountryCallingCode
-            value={field.value as E164Number | undefined}
+            value={props.defaultValue as E164Number | undefined}
             onChange={field.onChange}
             className="input-phone"
           />
@@ -120,7 +123,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       );
     case FormFieldType.DATE_PICKER:
       return (
-        <div className="flex rounded-md border border-dark-500 bg-dark-400 xl:w-2/4">
+        <div className="flex rounded-md border border-dark-500 bg-dark-400 xl:w-full">
           <Image
             src="/icons/calendar.svg"
             height={24}
@@ -131,7 +134,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <FormControl>
             <DatePicker
               showTimeSelect={props.showTimeSelect ?? false}
-              selected={field.value}
+              selected={field.value || props.defaultValue}
               onChange={(date: Date | any) => field.onChange(date)}
               timeInputLabel="Time:"
               dateFormat={props.dateFormat ?? "dd/MM/yyyy"}
@@ -175,6 +178,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               type="password"
               placeholder={props.placeholder}
               {...field}
+              defaultValue={props.defaultValue}
               className="bg-[#f4f4f4] placeholder:text-dark-600 border-dark-500 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 border-0"
             />
           </FormControl>

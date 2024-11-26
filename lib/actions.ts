@@ -153,7 +153,9 @@ export const createTeacher = async (
   data: TeacherSchema
 ) => {
   try {
-    const user = await clerkClient().users.createUser({
+    const user = await await (
+      await clerkClient()
+    ).users.createUser({
       username: data.username,
       password: data.password,
       firstName: data.name,
@@ -198,7 +200,9 @@ export const updateTeacher = async (
     return { success: false, error: true };
   }
   try {
-    const user = await clerkClient().users.updateUser(data.id, {
+    const user = await (
+      await clerkClient()
+    ).users.updateUser(data.id, {
       username: data.username,
       ...(data.password !== "" && { password: data.password }),
       firstName: data.name,

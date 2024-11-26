@@ -1,5 +1,6 @@
 import Announcements from "@/components/ui/Announcement";
 import BigCalendarContainer from "@/components/ui/BigCalendarContainer";
+import FormContainer from "@/components/ui/FormContainer";
 import FormModal from "@/components/ui/FormModal";
 import Performance from "@/components/ui/Performance";
 import Schedules from "@/components/ui/Schedules";
@@ -38,17 +39,14 @@ const SingleTeacherPage = async ({
   return (
     <div className="flex-1 p-4 flex flex-col gap-4 xl:flex-row">
       {/* LEFT */}
-      <div className="w-full xl:w-4/6">
+      <div className="w-full xl:w-2/3">
         {/* TOP */}
         <div className="flex flex-col lg:flex-row gap-4">
           {/* USER INFO CARD */}
-          <div className="bg-[#C1BBEB] py-6 px-4 rounded-md flex-1 flex gap-4">
+          <div className="bg-lamaSky py-6 px-4 rounded-md flex-1 flex gap-4">
             <div className="w-1/3">
               <Image
-                src={
-                  teacher.img ||
-                  "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                }
+                src={teacher.img || "/icons/noAvatar.png"}
                 alt=""
                 width={144}
                 height={144}
@@ -58,34 +56,14 @@ const SingleTeacherPage = async ({
             <div className="w-2/3 flex flex-col justify-between gap-4">
               <div className="flex items-center gap-4">
                 <h1 className="text-xl font-semibold">
-                  {teacher.surname + " " + teacher.name}
+                  {teacher.name + " " + teacher.surname}
                 </h1>
                 {role === "admin" && (
-                  <FormModal
-                    table="teacher"
-                    type="update"
-                    data={{
-                      id: 1,
-                      username: "deanguerrero",
-                      email: "deanguerrero@gmail.com",
-                      password: "password",
-                      firstName: "Dean",
-                      lastName: "Guerrero",
-                      phone: "+1 234 567 89",
-                      address: "1234 Main St, Anytown, USA",
-                      bloodType: "A+",
-                      dateOfBirth: "2000-01-01",
-                      sex: "male",
-                      img: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1200",
-                    }}
-                  />
+                  <FormContainer table="teacher" type="update" data={teacher} />
                 )}
               </div>
               <p className="text-sm text-gray-500">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
               </p>
               <div className="flex items-center justify-between gap-2 flex-wrap text-xs font-medium">
                 <div className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2">
@@ -95,10 +73,10 @@ const SingleTeacherPage = async ({
                 <div className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2">
                   <Image src="/icons/date.png" alt="" width={14} height={14} />
                   <span>
-                    {" "}
                     {new Intl.DateTimeFormat("en-GB").format(teacher.birthday)}
                   </span>
                 </div>
+
                 <Link
                   href={`mailto:${teacher.email}`}
                   className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2"
@@ -106,13 +84,11 @@ const SingleTeacherPage = async ({
                   <Image src="/icons/mail.png" alt="" width={14} height={14} />
                   <span>{teacher.email || "-"}</span>
                 </Link>
-                <Link
-                  href={`tel:${teacher?.phone}`}
-                  className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2"
-                >
+
+                <div className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2">
                   <Image src="/icons/phone.png" alt="" width={14} height={14} />
-                  <span>{teacher?.phone || "-"}</span>
-                </Link>
+                  <span>{teacher.phone || "-"}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -143,10 +119,9 @@ const SingleTeacherPage = async ({
               />
               <div className="">
                 <h1 className="text-xl font-semibold">
-                  {" "}
                   {teacher._count.subjects}
                 </h1>
-                <span className="text-sm text-gray-400">Subjects</span>
+                <span className="text-sm text-gray-400">Branches</span>
               </div>
             </div>
             {/* CARD */}
@@ -160,7 +135,6 @@ const SingleTeacherPage = async ({
               />
               <div className="">
                 <h1 className="text-xl font-semibold">
-                  {" "}
                   {teacher._count.lessons}
                 </h1>
                 <span className="text-sm text-gray-400">Lessons</span>
@@ -177,8 +151,7 @@ const SingleTeacherPage = async ({
               />
               <div className="">
                 <h1 className="text-xl font-semibold">
-                  {" "}
-                  {teacher._count.classes || "-"}
+                  {teacher._count.classes}
                 </h1>
                 <span className="text-sm text-gray-400">Classes</span>
               </div>
@@ -192,8 +165,8 @@ const SingleTeacherPage = async ({
         </div>
       </div>
       {/* RIGHT */}
-      <div className="w-full xl:w-2/6 flex flex-col gap-4">
-        {/* <div className="bg-white p-4 rounded-md">
+      <div className="w-full xl:w-1/3 flex flex-col gap-4">
+        <div className="bg-white p-4 rounded-md">
           <h1 className="text-xl font-semibold">Shortcuts</h1>
           <div className="mt-4 flex gap-4 flex-wrap text-xs text-gray-500">
             <Link
@@ -227,10 +200,9 @@ const SingleTeacherPage = async ({
               Teacher&apos;s Assignments
             </Link>
           </div>
-        </div> */}
+        </div>
         <Performance />
-        <Schedules type="teacherId" id={teacher.id} />
-        {/* <Announcements /> */}
+        <Announcements />
       </div>
     </div>
   );
