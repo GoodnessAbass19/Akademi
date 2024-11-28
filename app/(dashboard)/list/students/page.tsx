@@ -34,7 +34,7 @@ const StudentListPage = async ({
       className: "hidden md:table-cell",
     },
     {
-      header: "Date",
+      header: "Date of Birth",
       accessor: "birthDate",
       className: "hidden md:table-cell",
     },
@@ -87,7 +87,7 @@ const StudentListPage = async ({
           {/* <p className="text-xs text-gray-500">{item.class}</p> */}
         </div>
       </td>
-      <td className="hidden md:table-cell font-semibold text-[#4D44B5]">
+      <td className="hidden md:table-cell font-semibold text-[#4D44B5] ">
         #{item.id}
       </td>
       <td className="hidden md:table-cell">
@@ -128,7 +128,7 @@ const StudentListPage = async ({
       </td>
       <td className="hidden md:table-cell">
         <div
-          className={`w-3/5 h-full text-center rounded-full text-sm text-white capitalize ${
+          className={`w-4/5 h-[40px] rounded-full flex items-center justify-center text-center  text-sm text-white capitalize ${
             index % 2 === 0 ? "bg-[#FB7D5B]" : "bg-[#FCC43E]"
           }`}
         >

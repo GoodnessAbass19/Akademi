@@ -27,7 +27,9 @@ const InputField = ({
   placeholder,
   iconAlt,
   iconSrc,
-}: InputFieldProps) => {
+}: InputFieldProps & {
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+}) => {
   return (
     <div className={hidden ? "hidden" : "flex flex-col gap-2 w-full"}>
       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">

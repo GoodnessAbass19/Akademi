@@ -11,10 +11,14 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { CldUploadWidget } from "next-cloudinary";
 import { Form, FormControl } from "../ui/form";
-import CustomFormField, { FormFieldType } from "../ui/CustomFormField";
-import { SelectItem } from "../ui/select";
 import InputField from "../ui/InputField";
-import prisma from "@/lib/prisma";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const StudentForm = ({
   type,
@@ -37,8 +41,6 @@ const StudentForm = ({
   } = form;
 
   const [img, setImg] = useState<any>();
-  const [parentId, setParentId] = useState<string>();
-  const [loadingParent, setLoadingParent] = useState(false);
   const [state, formAction] = useFormState(
     type === "create" ? createStudent : updateStudent,
     {
@@ -47,34 +49,9 @@ const StudentForm = ({
     }
   );
 
-  // Fetch Parent ID Function
-  const fetchParentId = async (parentName: string) => {
-    if (!parentName) return;
-    try {
-      setLoadingParent(true);
-      const parent = await prisma.parent.findUnique({
-        where: { name: parentName },
-        select: { id: true },
-      });
-      if (parent) {
-        setParentId(parent.id);
-        console.log(parent.id);
-      } else {
-        toast.error("Parent not found!");
-        setParentId(null);
-      }
-    } catch (error) {
-      console.error("Error fetching parent ID:", error);
-      toast.error("Failed to fetch parent information.");
-      setParentId(null);
-    } finally {
-      setLoadingParent(false);
-    }
-  };
   const onSubmit = handleSubmit((data) => {
-    console.log("hello");
     console.log(data);
-    formAction({ ...data, img: img?.secure_url, parentId: parentId });
+    formAction({ ...data, img: img?.secure_url });
   });
 
   const router = useRouter();
@@ -155,7 +132,7 @@ const StudentForm = ({
                     <div>
                       {img ? (
                         <Image
-                          src={img?.secure_url}
+                          src={img?.secure_url || data.img}
                           alt="img"
                           width={200}
                           height={200}
@@ -213,15 +190,14 @@ const StudentForm = ({
                   error={errors?.birthday}
                 />
                 <InputField
-                  label="Parent Name"
+                  label="Parent ID"
                   name="parentId"
-                  placeholder="John doe"
+                  placeholder="parent123"
                   iconAlt="parent"
                   iconSrc="/icons/parent-form.png"
                   defaultValue={data?.parentId}
                   register={register}
                   error={errors?.parentId}
-                  onBlur={(e) => fetchParentId(e.target.value)}
                 />
               </div>
 
@@ -248,6 +224,29 @@ const StudentForm = ({
                 />
               </div>
               <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+                <div>
+                  <label className="text-xs text-gray-500">Sex</label>
+                  <select
+                    className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+                    {...form.register("sex")}
+                    defaultValue={data?.sex}
+                  >
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                  </select>
+                </div>
+                <InputField
+                  name="bloodType"
+                  label="Blood Group"
+                  placeholder="blood group"
+                  iconAlt="blood"
+                  iconSrc="/icons/blood-bank.png"
+                  defaultValue={data?.bloodType}
+                  register={register}
+                  error={errors?.name}
+                />
+              </div>
+              <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-end">
                 <InputField
                   name="address"
                   label="Address"
@@ -258,21 +257,71 @@ const StudentForm = ({
                   register={register}
                   error={errors?.address}
                 />
+
+                <div className="flex flex-col gap-2 w-full md:w-full">
+                  <label className="text-xs text-gray-500">Grade</label>
+                  <select
+                    className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+                    {...register("gradeId")}
+                    defaultValue={data?.gradeId}
+                  >
+                    {grades.map((grade: { id: number; level: number }) => (
+                      <option value={grade.id} key={grade.id}>
+                        {grade.level}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.gradeId?.message && (
+                    <p className="text-xs text-red-400">
+                      {errors.gradeId.message.toString()}
+                    </p>
+                  )}
+                </div>
               </div>
-              {data && (
-                <InputField
-                  label="Id"
-                  name="id"
-                  defaultValue={data?.id}
-                  register={register}
-                  error={errors?.id}
-                  hidden
-                />
-              )}
+              <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-end">
+                <div className="flex flex-col gap-2 w-full md:w-full">
+                  <label className="text-xs text-gray-500">Class</label>
+                  <select
+                    className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+                    {...register("classId")}
+                    defaultValue={data?.classId}
+                  >
+                    {classes.map(
+                      (classItem: {
+                        id: number;
+                        name: string;
+                        capacity: number;
+                        _count: { students: number };
+                      }) => (
+                        <option value={classItem.id} key={classItem.id}>
+                          ({classItem.name} -{" "}
+                          {classItem._count.students + "/" + classItem.capacity}{" "}
+                          Capacity)
+                        </option>
+                      )
+                    )}
+                  </select>
+                  {errors.classId?.message && (
+                    <p className="text-xs text-red-400">
+                      {errors.classId.message.toString()}
+                    </p>
+                  )}
+                </div>
+
+                {data && (
+                  <InputField
+                    label="Id"
+                    name="id"
+                    defaultValue={data?.id}
+                    register={register}
+                    error={errors?.id}
+                    hidden
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
-        {loadingParent && <p>Loading parent...</p>}
         {state.error && (
           <span className="text-red-500">Something went wrong!</span>
         )}

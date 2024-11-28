@@ -285,7 +285,7 @@ const TeacherForm = ({
                         />
                       ) : (
                         <div
-                          className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer w-[200px] h-[200px] border-dashed border-2 border-gray-300"
+                          className="text-xs text-gray-500 flex items-center gap-2 justify-center cursor-pointer w-[200px] h-[200px] border-dashed border-2 border-gray-300"
                           onClick={() => open()}
                         >
                           <Image
