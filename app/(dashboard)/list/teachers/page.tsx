@@ -59,7 +59,7 @@ const TeacherPage = async ({
   ]);
 
   return (
-    <div className="rounded-md flex-1 m-4 mt-0">
+    <div className="rounded-md flex-1 m-2 lg:m-4 mt-0">
       {/* TOP */}
       <div className="flex flex-col items-start space-y-4 justify-between">
         <h1 className="hidden md:block text-lg font-semibold">Teachers</h1>
@@ -73,21 +73,6 @@ const TeacherPage = async ({
               <Image src="/icons/sort.png" alt="" width={14} height={14} />
             </button>
             {role === "admin" && (
-              // <Link
-              //   href={"/list/teachers/new"}
-              //   className="flex items-center justify-center rounded-full bg-[#4D44B5] py-1.5 px-4 space-x-2"
-              // >
-              //   <Image
-              //     src="/icons/plus.png"
-              //     alt=""
-              //     width={10}
-              //     height={10}
-              //     className="inline-flex"
-              //   />
-              //   <h3 className="text-white text-sm capitalize font-medium">
-              //     new teacher
-              //   </h3>
-              // </Link>
               <FormContainer table="teacher" type="create" />
             )}
           </div>

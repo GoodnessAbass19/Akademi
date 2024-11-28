@@ -9,6 +9,7 @@ import { auth } from "@clerk/nextjs/server";
 import { Class, Parent, Prisma, Student } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import FormContainer from "@/components/ui/FormContainer";
 
 type StudentList = Student & { class: Class } & { parent: Parent };
 
@@ -208,19 +209,19 @@ const StudentListPage = async ({
               <Image src="/icons/sort.png" alt="" width={14} height={14} />
             </button>
             {role === "admin" && (
-              <button className="flex items-center justify-center rounded-full bg-[#4D44B5] py-1.5 px-4 space-x-2">
-                <Image
-                  src="/icons/plus.png"
-                  alt=""
-                  width={10}
-                  height={10}
-                  className="inline-flex"
-                />
-                <h3 className="text-white text-sm capitalize font-medium">
-                  new student
-                </h3>
-              </button>
-              // <FormContainer table="teacher" type="create" />
+              // <button className="flex items-center justify-center rounded-full bg-[#4D44B5] py-1.5 px-4 space-x-2">
+              //   <Image
+              //     src="/icons/plus.png"
+              //     alt=""
+              //     width={10}
+              //     height={10}
+              //     className="inline-flex"
+              //   />
+              //   <h3 className="text-white text-sm capitalize font-medium">
+              //     new student
+              //   </h3>
+              // </button>
+              <FormContainer table="student" type="create" />
             )}
           </div>
         </div>

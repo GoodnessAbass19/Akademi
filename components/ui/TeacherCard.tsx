@@ -1,24 +1,21 @@
 import { Class, Subject, Teacher } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { auth } from "@clerk/nextjs/server";
+import FormContainer from "@/components/ui/FormContainer";
 
 type TeacherList = Teacher & { subjects: Subject[] } & { classes: Class[] };
 
-const TeacherCard = ({ data }: { data: TeacherList }) => {
+const TeacherCard = async ({ data }: { data: TeacherList }) => {
+  const { userId, sessionClaims } = await auth();
+  const role = (sessionClaims?.metadata as { role?: string })?.role;
   return (
-    <div className="rounded-2xl bg-[#FCFBFC] p-4 h-[352px] shadow-md">
-      <Link
-        href={`/list/teachers/${data.id}`}
-        className="flex flex-col justify-end items-end"
-      >
-        <Image
-          src={"/icons/Dots.png"}
-          alt="more"
-          width={100}
-          height={100}
-          className="w-5 h-5"
-        />
-      </Link>
+    <div className="rounded-2xl bg-[#FCFBFC] p-4 h-[300px] lg:h-[320px] shadow-md">
+      <div className="flex flex-col justify-end items-end">
+        {role === "admin" && (
+          <FormContainer table="teacher" type="delete" id={data.id} />
+        )}
+      </div>
 
       <div className="flex flex-col justify-center items-center gap-4">
         <Image
@@ -30,8 +27,8 @@ const TeacherCard = ({ data }: { data: TeacherList }) => {
         />
         <div className="gap-2.5 flex flex-col items-center">
           <Link href={`/list/teachers/${data.id}`}>
-            <h2 className="font-semibold text-[#4D44B5] capitalize text-xl">
-              {data.name}
+            <h2 className="font-semibold text-[#4D44B5] capitalize text-base">
+              {data.name + " " + data.surname}
             </h2>
           </Link>
 

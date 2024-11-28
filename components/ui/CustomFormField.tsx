@@ -41,7 +41,7 @@ interface CustomProps {
   renderSkeleton?: (field: any) => React.ReactNode;
   fieldType: FormFieldType;
   defaultValue?: string;
-  register?: string;
+  register?: any;
 }
 
 export enum FormFieldType {
@@ -190,7 +190,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
 };
 
 const CustomFormField = (props: CustomProps) => {
-  const { control, name, label } = props;
+  const { control, name, label, register } = props;
   return (
     <FormField
       control={control}
