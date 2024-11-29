@@ -8,6 +8,7 @@ import { Parent, Prisma, Student } from "@prisma/client";
 import Image from "next/image";
 import { auth } from "@clerk/nextjs/server";
 import { role } from "@/lib/data";
+import Link from "next/link";
 
 // const { userId, sessionClaims } = auth();
 // const role = (sessionClaims?.metadata as { role?: string })?.role;
@@ -18,6 +19,11 @@ const columns = [
   {
     header: "Info",
     accessor: "info",
+  },
+  {
+    header: "Parent ID",
+    accessor: "parentId",
+    className: "hidden md:table-cell",
   },
   {
     header: "Student Names",
@@ -55,8 +61,18 @@ const renderRow = (item: ParentList) => (
         <p className="text-xs text-gray-500">{item?.email}</p>
       </div>
     </td>
-    <td className="hidden md:table-cell">
-      {item.students.map((student) => student.name).join(",")}
+    <td className="hidden md:table-cell font-semibold text-[#4D44B5]">
+      #{item.id}
+    </td>
+    <td className="hidden md:table-cell text-[#4D44B5]">
+      {item.students.map((student, index) => (
+        <>
+          <Link key={student.id} href={`/list/students/${student.id}`}>
+            {student.name}
+          </Link>
+          {index < item.students.length - 1 && ", "}
+        </>
+      ))}
     </td>
     <td className="hidden md:table-cell">{item.phone}</td>
     <td className="hidden md:table-cell">{item.address}</td>

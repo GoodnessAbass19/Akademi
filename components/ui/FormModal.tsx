@@ -42,12 +42,12 @@ const TeacherForm = dynamic(() => import("../forms/TeacherForm"), {
 const StudentForm = dynamic(() => import("../forms/StudentForm"), {
   loading: () => <h1>Loading...</h1>,
 });
-// const SubjectForm = dynamic(() => import("./forms/SubjectForm"), {
-//   loading: () => <h1>Loading...</h1>,
-// });
-// const ClassForm = dynamic(() => import("./forms/ClassForm"), {
-//   loading: () => <h1>Loading...</h1>,
-// });
+const SubjectForm = dynamic(() => import("../forms/SubjectForm"), {
+  loading: () => <h1>Loading...</h1>,
+});
+const ClassForm = dynamic(() => import("../forms/ClassForm"), {
+  loading: () => <h1>Loading...</h1>,
+});
 // const ExamForm = dynamic(() => import("./forms/ExamForm"), {
 //   loading: () => <h1>Loading...</h1>,
 // });
@@ -61,22 +61,22 @@ const forms: {
     relatedData?: any
   ) => JSX.Element;
 } = {
-  // subject: (setOpen, type, data, relatedData) => (
-  //   <SubjectForm
-  //     type={type}
-  //     data={data}
-  //     setOpen={setOpen}
-  //     relatedData={relatedData}
-  //   />
-  // ),
-  // class: (setOpen, type, data, relatedData) => (
-  //   <ClassForm
-  //     type={type}
-  //     data={data}
-  //     setOpen={setOpen}
-  //     relatedData={relatedData}
-  //   />
-  // ),
+  subject: (setOpen, type, data, relatedData) => (
+    <SubjectForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
+  class: (setOpen, type, data, relatedData) => (
+    <ClassForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
   teacher: (setOpen, type, data, relatedData) => (
     <TeacherForm
       type={type}

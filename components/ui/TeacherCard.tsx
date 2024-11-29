@@ -33,7 +33,12 @@ const TeacherCard = async ({ data }: { data: TeacherList }) => {
           </Link>
 
           <span className="text-sm font-normal text-[A098AE]">
-            {data.subjects.map((subject) => subject.name).join(",")}
+            {data.subjects.map((subject, index) => (
+              <>
+                <span key={subject.id}>{subject.name}</span>
+                {index < data.subjects.length - 1 && ", "}
+              </>
+            ))}
             {/* {data.subjects.map((item, idx) => (
               <span key={idx}>
                 {idx < data.subjects.length - 1 ? `${item}, ` : item}

@@ -128,7 +128,7 @@ const StudentListPage = async ({
       </td>
       <td className="hidden md:table-cell">
         <div
-          className={`w-4/5 h-[40px] rounded-full flex items-center justify-center text-center  text-sm text-white capitalize ${
+          className={`lg:w-4/5 w-full h-[30px] xl:h-[40px] rounded-full flex items-center justify-center text-center font-bold text-xs xl:text-sm text-white capitalize ${
             index % 2 === 0 ? "bg-[#FB7D5B]" : "bg-[#FCC43E]"
           }`}
         >

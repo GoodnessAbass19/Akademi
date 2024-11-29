@@ -137,7 +137,7 @@ const StudentForm = ({
                         />
                       ) : (
                         <div
-                          className="text-xs text-gray-500 flex items-center justify-center gap-2 cursor-pointer w-[200px] h-[200px] border-dashed border-2 border-gray-300"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-center gap-2 cursor-pointer w-[200px] h-[200px] border-dashed border-2 border-gray-300"
                           onClick={() => open()}
                         >
                           <Image
@@ -223,7 +223,9 @@ const StudentForm = ({
               </div>
               <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
                 <div>
-                  <label className="text-xs text-gray-500">Sex</label>
+                  <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Sex
+                  </label>
                   <select
                     className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
                     {...form.register("sex")}
@@ -280,7 +282,9 @@ const StudentForm = ({
               </div>
               <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-end">
                 <div className="flex flex-col gap-2 w-full md:w-full">
-                  <label className="text-xs text-gray-500">Class</label>
+                  <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Class
+                  </label>
                   <select
                     className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
                     {...register("classId")}

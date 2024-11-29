@@ -196,7 +196,9 @@ const TeacherForm = ({
             </div>
             <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
               <div>
-                <label className="text-xs text-gray-500">Sex</label>
+                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Sex
+                </label>
                 <select
                   className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
                   {...form.register("sex")}
@@ -248,14 +250,39 @@ const TeacherForm = ({
                 )}
               </div> */}
             </div>
-            <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
-              <CustomFormField
+            <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-start">
+              <div className="flex flex-col gap-2 w-full md:w-full">
+                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Subjects
+                </label>
+                <select
+                  multiple
+                  className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+                  {...register("subjects")}
+                  defaultValue={data?.subjects}
+                >
+                  {relatedData?.subjects.map(
+                    (subject: { id: number; name: string }) => (
+                      <option value={subject.id} key={subject.id}>
+                        {subject.name}
+                      </option>
+                    )
+                  )}
+                </select>
+                {errors.subjects?.message && (
+                  <p className="text-xs text-red-400">
+                    {errors.subjects.message.toString()}
+                  </p>
+                )}
+              </div>
+              {/* <CustomFormField
                 fieldType={FormFieldType.SELECT}
                 control={form.control}
                 name="subjects"
                 label="Teacher Subjects"
                 placeholder="Select subjects"
                 defaultValue={data?.subjects}
+
               >
                 {relatedData?.subjects.map(
                   (subject: { id: number; name: string }) => (
@@ -264,7 +291,7 @@ const TeacherForm = ({
                     </SelectItem>
                   )
                 )}
-              </CustomFormField>
+              </CustomFormField> */}
               <CldUploadWidget
                 uploadPreset="school"
                 onSuccess={(result, { widget }) => {

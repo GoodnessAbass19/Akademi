@@ -94,9 +94,9 @@ const SingleStudentPage = async ({
             </div>
           </div>
           {/* SMALL CARDS */}
-          <div className="flex-1 flex gap-4 justify-between flex-wrap">
+          <div className="xl:flex-1 xl:flex flex flex-1 lg:grid lg:grid-cols-2 gap-4 justify-between flex-wrap">
             {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] lg:w-full xl:w-[45%] 2xl:w-[48%]">
               <Image
                 src="/icons/singleAttendance.png"
                 alt=""
@@ -109,7 +109,7 @@ const SingleStudentPage = async ({
               </Suspense>
             </div>
             {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] lg:w-full xl:w-[45%] 2xl:w-[48%]">
               <Image
                 src="/icons/singleBranch.png"
                 alt=""
@@ -125,7 +125,7 @@ const SingleStudentPage = async ({
               </div>
             </div>
             {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] lg:w-full xl:w-[45%] 2xl:w-[48%]">
               <Image
                 src="/icons/singleLesson.png"
                 alt=""
@@ -141,7 +141,7 @@ const SingleStudentPage = async ({
               </div>
             </div>
             {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] lg:w-full xl:w-[45%] 2xl:w-[48%]">
               <Image
                 src="/icons/singleClass.png"
                 alt=""
