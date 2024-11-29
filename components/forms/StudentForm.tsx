@@ -41,6 +41,7 @@ const StudentForm = ({
   } = form;
 
   const [img, setImg] = useState<any>();
+
   const [state, formAction] = useFormState(
     type === "create" ? createStudent : updateStudent,
     {
@@ -50,7 +51,6 @@ const StudentForm = ({
   );
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
     formAction({ ...data, img: img?.secure_url });
   });
 
@@ -63,8 +63,6 @@ const StudentForm = ({
       router.refresh();
     }
   }, [state, router, type, setOpen]);
-
-  const { grades, classes } = relatedData;
 
   return (
     <Form {...form}>
@@ -265,11 +263,13 @@ const StudentForm = ({
                     {...register("gradeId")}
                     defaultValue={data?.gradeId}
                   >
-                    {grades.map((grade: { id: number; level: number }) => (
-                      <option value={grade.id} key={grade.id}>
-                        {grade.level}
-                      </option>
-                    ))}
+                    {relatedData?.grades.map(
+                      (grade: { id: number; level: number }) => (
+                        <option value={grade.id} key={grade.id}>
+                          {grade.level}
+                        </option>
+                      )
+                    )}
                   </select>
                   {errors.gradeId?.message && (
                     <p className="text-xs text-red-400">
@@ -286,7 +286,7 @@ const StudentForm = ({
                     {...register("classId")}
                     defaultValue={data?.classId}
                   >
-                    {classes.map(
+                    {relatedData?.classes.map(
                       (classItem: {
                         id: number;
                         name: string;

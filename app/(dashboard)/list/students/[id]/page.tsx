@@ -1,11 +1,9 @@
 import Announcements from "@/components/ui/Announcement";
 import BigCalendarContainer from "@/components/ui/BigCalendarContainer";
-// import FormContainer from "@/components/ui/FormContainer";
-import FormModal from "@/components/ui/FormModal";
+import FormContainer from "@/components/ui/FormContainer";
 import Performance from "@/components/ui/Performance";
 import Schedules from "@/components/ui/Schedules";
 import StudentAttendanceCard from "@/components/ui/StudentAttendanceCard";
-import { role } from "@/lib/data";
 import prisma from "@/lib/prisma";
 import { ordinal } from "@/lib/settings";
 import { auth } from "@clerk/nextjs/server";
@@ -19,8 +17,8 @@ const SingleStudentPage = async ({
 }: {
   params: { id: string };
 }) => {
-  // const { sessionClaims } = auth();
-  // const role = (sessionClaims?.metadata as { role?: string })?.role;
+  const { sessionClaims } = await auth();
+  const role = (sessionClaims?.metadata as { role?: string })?.role;
 
   const student:
     | (Student & {
@@ -59,7 +57,7 @@ const SingleStudentPage = async ({
                   {student.name + " " + student.surname}
                 </h1>
                 {role === "admin" && (
-                  <FormModal table="student" type="update" data={student} />
+                  <FormContainer table="student" type="update" data={student} />
                 )}
               </div>
               <p className="text-sm text-gray-500">
