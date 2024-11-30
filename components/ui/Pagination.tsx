@@ -17,7 +17,7 @@ const Pagination = ({ page, count }: { page: number; count: number }) => {
 
   return (
     <div className="p-4 flex items-center justify-between text-gray-500">
-      <p className="text-base font-normal text-[#4D44B5] hidden md:block">
+      <p className="text-base font-normal text-[#4D44B5] hidden md:block opacity-0">
         {ITEM_PER_PAGE.toString()} of 50
       </p>
       <div className="flex justify-around items-center gap-2">

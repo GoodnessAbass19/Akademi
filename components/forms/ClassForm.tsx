@@ -69,7 +69,7 @@ const ClassForm = ({
       </section>
 
       <div className="space-y-8 lg:p-4 p-2">
-        <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+        <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start">
           <InputField
             label="Class name"
             name="name"
@@ -95,7 +95,7 @@ const ClassForm = ({
             />
           )}
         </div>
-        <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+        <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start">
           <div className="flex flex-col gap-2 w-full md:w-full">
             <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
               Supervisor

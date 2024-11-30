@@ -3,6 +3,7 @@
 import {
   ClassSchema,
   ExamSchema,
+  LessonSchema,
   StudentSchema,
   SubjectSchema,
   TeacherSchema,
@@ -475,6 +476,93 @@ export const deleteExam = async (
       where: {
         id: parseInt(id),
         // ...(role === "teacher" ? { lesson: { teacherId: userId! } } : {}),
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: true };
+  }
+};
+
+export const createLesson = async (
+  currentState: CurrentState,
+  data: LessonSchema
+) => {
+  try {
+    await prisma.lesson.create({
+      data: {
+        name: data.name,
+        endTime: data.endTime,
+        startTime: data.startTime,
+        subjectId: data.subjectId,
+        teacherId: data.teacherId,
+        classId: data.classId,
+        id: data.id,
+        day: data.day,
+      },
+    });
+
+    return { success: true, error: false, message: "" };
+  } catch (err: any) {
+    // Check if the error is a unique constraint violation
+    if (err.code === "P2002" && err.meta?.target?.includes("name")) {
+      return {
+        success: false,
+        error: true,
+        message: "This subject already exists.",
+      };
+    }
+
+    console.error("Unexpected error:", err);
+    return {
+      success: false,
+      error: true,
+      message: "An unexpected error occurred.",
+    };
+  }
+};
+
+export const updateLesson = async (
+  currentState: CurrentState,
+  data: LessonSchema
+) => {
+  try {
+    await prisma.lesson.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        name: data.name,
+        endTime: data.endTime,
+        startTime: data.startTime,
+        subjectId: data.subjectId,
+        teacherId: data.teacherId,
+        classId: data.classId,
+        id: data.id,
+        day: data.day,
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false, message: "" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: true, message: "" };
+  }
+};
+
+export const deleteLesson = async (
+  currentState: CurrentState,
+  data: FormData
+) => {
+  const id = data.get("id") as string;
+  try {
+    await prisma.lesson.delete({
+      where: {
+        id: parseInt(id),
       },
     });
 

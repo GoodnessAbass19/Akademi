@@ -3,6 +3,7 @@
 import {
   deleteClass,
   deleteExam,
+  deleteLesson,
   deleteStudent,
   deleteSubject,
   deleteTeacher,
@@ -23,7 +24,7 @@ const deleteActionMap = {
   exam: deleteExam,
   // TODO: OTHER DELETE ACTIONS
   parent: deleteSubject,
-  lesson: deleteSubject,
+  lesson: deleteLesson,
   assignment: deleteSubject,
   result: deleteSubject,
   attendance: deleteSubject,
@@ -48,9 +49,12 @@ const SubjectForm = dynamic(() => import("../forms/SubjectForm"), {
 const ClassForm = dynamic(() => import("../forms/ClassForm"), {
   loading: () => <h1>Loading...</h1>,
 });
-// const ExamForm = dynamic(() => import("./forms/ExamForm"), {
-//   loading: () => <h1>Loading...</h1>,
-// });
+const LessonForm = dynamic(() => import("../forms/LessonForm"), {
+  loading: () => <h1>Loading...</h1>,
+});
+const ExamForm = dynamic(() => import("../forms/ExamForm"), {
+  loading: () => <h1>Loading...</h1>,
+});
 // TODO: OTHER FORMS
 
 const forms: {
@@ -93,15 +97,23 @@ const forms: {
       relatedData={relatedData}
     />
   ),
-  // exam: (setOpen, type, data, relatedData) => (
-  //   <ExamForm
-  //     type={type}
-  //     data={data}
-  //     setOpen={setOpen}
-  //     relatedData={relatedData}
-  //   />
-  //   // TODO OTHER LIST ITEMS
-  // ),
+  lesson: (setOpen, type, data, relatedData) => (
+    <LessonForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
+  exam: (setOpen, type, data, relatedData) => (
+    <ExamForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
+  // TODO OTHER LIST ITEMS
 };
 
 const FormModal = ({
@@ -174,7 +186,7 @@ const FormModal = ({
       {open && (
         <div className="w-screen h-screen absolute left-0 top-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
           <div
-            className={`bg-white p-6 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[60%] ${
+            className={`bg-white md:p-6 p-4 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[60%] ${
               (table === "teacher" && type !== "delete") ||
               (table === "student" && type !== "delete")
                 ? "h-screen"

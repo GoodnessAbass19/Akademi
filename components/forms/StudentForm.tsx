@@ -74,7 +74,7 @@ const StudentForm = ({
               Authentication Information
             </h1>
           </section>
-          <div className="gap-5 p-4 grid grid-cols-3 justify-between items-center">
+          <div className="gap-5 w-full lg:p-4 p-2 grid md:grid-cols-3 md:justify-between items-center md:items-start">
             <InputField
               label="Username"
               name="username"
@@ -116,7 +116,7 @@ const StudentForm = ({
               Personal Information
             </h1>
           </section>
-          <div className="lg:p-4 p-2 gap-y-8 gap-x-5 grid md:grid-cols-4 justify-between items-start">
+          <div className="lg:p-4 p-2 gap-y-8 gap-x-5 grid lg:grid-cols-4 justify-between items-start">
             <div className="col-span-1">
               <CldUploadWidget
                 uploadPreset="school"
@@ -156,7 +156,7 @@ const StudentForm = ({
             </div>
 
             <div className="col-span-3 space-y-8">
-              <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+              <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start w-full">
                 <InputField
                   label="First name"
                   name="name"
@@ -178,7 +178,7 @@ const StudentForm = ({
                   error={errors?.surname}
                 />
               </div>
-              <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+              <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start w-full">
                 <InputField
                   name="birthday"
                   label="Date of Birth"
@@ -199,7 +199,7 @@ const StudentForm = ({
                 />
               </div>
 
-              <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+              <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start w-full">
                 <InputField
                   name="email"
                   label="Email"
@@ -221,7 +221,7 @@ const StudentForm = ({
                   error={errors?.phone}
                 />
               </div>
-              <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+              <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start w-full">
                 <div>
                   <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                     Sex
@@ -246,7 +246,7 @@ const StudentForm = ({
                   error={errors?.name}
                 />
               </div>
-              <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-end">
+              <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start w-full">
                 <InputField
                   name="address"
                   label="Address"
@@ -280,7 +280,7 @@ const StudentForm = ({
                   )}
                 </div>
               </div>
-              <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-end">
+              <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start w-full">
                 <div className="flex flex-col gap-2 w-full md:w-full">
                   <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                     Class

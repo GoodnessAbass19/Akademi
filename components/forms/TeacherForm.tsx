@@ -71,7 +71,7 @@ const TeacherForm = ({
               Authentication Information
             </h1>
           </section>
-          <div className="gap-5 lg:p-4 p-2 grid grid-cols-3 justify-between items-center">
+          <div className="gap-5 lg:p-4 p-2 grid md:grid-cols-3 justify-between items-center md:items-startr">
             <InputField
               label="Username"
               name="username"
@@ -113,7 +113,7 @@ const TeacherForm = ({
             </h1>
           </section>
           <div className="space-y-8 lg:p-4 p-2">
-            <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+            <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start">
               <InputField
                 label="First name"
                 name="name"
@@ -135,7 +135,7 @@ const TeacherForm = ({
                 error={errors?.surname}
               />
             </div>
-            <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+            <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start">
               <InputField
                 name="email"
                 label="Email"
@@ -157,7 +157,7 @@ const TeacherForm = ({
                 error={errors?.phone}
               />
             </div>
-            <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+            <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start">
               <InputField
                 name="address"
                 label="Address"
@@ -194,7 +194,7 @@ const TeacherForm = ({
                 defaultValue={data?.birthday.toISOString().split("T")[0]}
               /> */}
             </div>
-            <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-center">
+            <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start">
               <div>
                 <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   Sex
@@ -250,7 +250,7 @@ const TeacherForm = ({
                 )}
               </div> */}
             </div>
-            <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-start">
+            <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start">
               <div className="flex flex-col gap-2 w-full md:w-full">
                 <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   Subjects

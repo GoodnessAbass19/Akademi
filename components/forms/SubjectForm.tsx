@@ -61,7 +61,6 @@ const SubjectForm = ({
   }, [state, router, type, setOpen]);
 
   const { teachers } = relatedData;
-  console.log(teachers);
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
@@ -74,7 +73,7 @@ const SubjectForm = ({
         {type === "create" ? "Create a new subject" : "Update the subject"}
       </h1> */}
 
-      <div className="gap-y-8 gap-x-5 grid grid-cols-2 justify-between items-start">
+      <div className="gap-y-8 gap-x-5 grid md:grid-cols-2 justify-between items-center md:items-start">
         <InputField
           label="Subject name"
           name="name"

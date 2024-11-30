@@ -35,7 +35,7 @@ const InputField = ({
       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
         {label}
       </label>
-      <div className="flex items-center rounded-md border border-dark-500 bg-dark-400">
+      <div className="flex items-center rounded-md border border-dark-500 bg-dark-400 w-full">
         {iconSrc && (
           <Image
             src={iconSrc}

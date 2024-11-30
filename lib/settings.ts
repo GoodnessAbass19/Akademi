@@ -78,8 +78,8 @@ export function getTimeWithAmPm(dateString: string | number | Date) {
   const date = new Date(dateString);
 
   // Use UTC methods to get hours and minutes
-  let hours = date.getUTCHours();
-  const minutes = date.getUTCMinutes();
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
   const amPm = hours >= 12 ? "PM" : "AM";
 
   // Convert to 12-hour format
@@ -111,6 +111,10 @@ export function formatDateToMonthDayYear(dateString: string | number | Date) {
 
   return `${month} ${day}, ${year}`;
 }
+
+// Example usage:
+// const dbDate = "2024-12-02T12:06:00.000Z";
+// console.log(formatDate(dbDate)); // "12/2/2024, 1:06:00 PM" (based on local time zone)
 
 // import { auth } from "@clerk/nextjs/server";
 
