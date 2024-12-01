@@ -13,11 +13,7 @@ import Table from "@/components/ui/Table";
 import Pagination from "@/components/ui/Pagination";
 
 type ExamList = Exam & {
-  lesson: {
-    subject: Subject;
-    class: Class;
-    teacher: Teacher;
-  };
+  subject: Subject;
 };
 
 const ExamListPage = async ({
@@ -34,15 +30,15 @@ const ExamListPage = async ({
       header: "Subject Name",
       accessor: "name",
     },
-    {
-      header: "Class",
-      accessor: "class",
-    },
-    {
-      header: "Teacher",
-      accessor: "teacher",
-      className: "hidden md:table-cell",
-    },
+    // {
+    //   header: "Class",
+    //   accessor: "class",
+    // },
+    // {
+    //   header: "Teacher",
+    //   accessor: "teacher",
+    //   className: "hidden md:table-cell",
+    // },
     {
       header: "Date",
       accessor: "date",
@@ -73,13 +69,11 @@ const ExamListPage = async ({
       key={item.id}
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
     >
-      <td className="flex items-center gap-4 p-4">
-        {item.lesson.subject.name}
-      </td>
-      <td>{item.lesson.class.name}</td>
-      <td className="hidden md:table-cell">
-        {item.lesson.teacher.name + " " + item.lesson.teacher.surname}
-      </td>
+      <td className="flex items-center gap-4 p-4">{item.subject.name}</td>
+      {/* <td>{item.lesson.class.name}</td> */}
+      {/* <td className="hidden md:table-cell">
+        {item.teacher.name + " " + item.lesson.teacher.surname}
+      </td> */}
       <td className="hidden md:table-cell">
         {formatDateToMonthDayYear(item.startTime)}
       </td>
@@ -105,23 +99,15 @@ const ExamListPage = async ({
   const p = page ? parseInt(page) : 1;
 
   // URL PARAMS CONDITION
-
   const query: Prisma.ExamWhereInput = {};
 
-  query.lesson = {};
   if (queryParams) {
     for (const [key, value] of Object.entries(queryParams)) {
-      if (value !== undefined) {
+      if (value) {
         switch (key) {
-          case "classId":
-            query.lesson.classId = parseInt(value);
-            break;
-          case "teacherId":
-            query.lesson.teacherId = value;
-            break;
           case "search":
-            query.lesson.subject = {
-              name: { contains: value, mode: "insensitive" },
+            query.subject = {
+              is: { name: { contains: value, mode: "insensitive" } },
             };
             break;
           default:
@@ -132,53 +118,106 @@ const ExamListPage = async ({
   }
 
   // ROLE CONDITIONS
-
   switch (role) {
     case "admin":
-      break;
+      break; // Admins see all exams
     case "teacher":
-      query.lesson.teacherId = currentUserId!;
+      query.subject = { is: { teachers: { some: { id: currentUserId! } } } }; // Teachers see exams they are teaching
       break;
     case "student":
-      query.lesson.class = {
-        students: {
-          some: {
-            id: currentUserId!,
-          },
-        },
-      };
+      // Students see all exams; no additional filtering needed
       break;
     case "parent":
-      query.lesson.class = {
-        students: {
-          some: {
-            parentId: currentUserId!,
-          },
-        },
-      };
+      query.results = { some: { student: { parentId: currentUserId! } } }; // Parents see exams of their children
       break;
-
     default:
       break;
   }
 
+  // Fetch data and count using Prisma transactions
   const [data, count] = await prisma.$transaction([
     prisma.exam.findMany({
       where: query,
       include: {
-        lesson: {
-          select: {
-            subject: { select: { name: true } },
-            teacher: { select: { name: true, surname: true } },
-            class: { select: { name: true } },
-          },
-        },
+        subject: { select: { name: true } }, // Fetch subject details
       },
       take: ITEM_PER_PAGE,
       skip: ITEM_PER_PAGE * (p - 1),
     }),
     prisma.exam.count({ where: query }),
   ]);
+
+  // query.lesson = {};
+  // if (queryParams) {
+  //   for (const [key, value] of Object.entries(queryParams)) {
+  //     if (value !== undefined) {
+  //       switch (key) {
+  //         case "classId":
+  //           query.lesson.classId = parseInt(value);
+  //           break;
+  //         case "teacherId":
+  //           query.lesson.teacherId = value;
+  //           break;
+  //         case "search":
+  //           query.lesson.subject = {
+  //             name: { contains: value, mode: "insensitive" },
+  //           };
+  //           break;
+  //         default:
+  //           break;
+  //       }
+  //     }
+  //   }
+  // }
+
+  // // ROLE CONDITIONS
+
+  // switch (role) {
+  //   case "admin":
+  //     break;
+  //   case "teacher":
+  //     query.lesson.teacherId = currentUserId!;
+  //     break;
+  //   case "student":
+  //     query.lesson.class = {
+  //       students: {
+  //         some: {
+  //           id: currentUserId!,
+  //         },
+  //       },
+  //     };
+  //     break;
+  //   case "parent":
+  //     query.lesson.class = {
+  //       students: {
+  //         some: {
+  //           parentId: currentUserId!,
+  //         },
+  //       },
+  //     };
+  //     break;
+
+  //   default:
+  //     break;
+  // }
+
+  // const [data, count] = await prisma.$transaction([
+  //   prisma.exam.findMany({
+  //     where: query,
+  //     include: {
+  //       lesson: {
+  //         select: {
+  //           subject: { select: { name: true } },
+  //           teacher: { select: { name: true, surname: true } },
+  //           class: { select: { name: true } },
+  //         },
+  //       },
+  //     },
+  //     take: ITEM_PER_PAGE,
+  //     skip: ITEM_PER_PAGE * (p - 1),
+  //   }),
+  //   prisma.exam.count({ where: query }),
+  // ]);
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">

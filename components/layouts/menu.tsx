@@ -64,6 +64,12 @@ const menuItems = [
         icon: "/result.png",
         label: "Results",
         href: "/list/results",
+        visible: ["admin", "teacher"],
+      },
+      {
+        icon: "/termReport.png",
+        label: "Term Summary",
+        href: "/list/term-results",
         visible: ["admin", "teacher", "student", "parent"],
       },
       {

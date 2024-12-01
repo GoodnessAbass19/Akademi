@@ -18,10 +18,11 @@ export const routeAccessMap: RouteAccessMap = {
   "/list/classes": ["admin", "teacher"],
   "/list/exams": ["admin", "teacher", "student", "parent"],
   "/list/assignments": ["admin", "teacher", "student", "parent"],
-  "/list/results": ["admin", "teacher", "student", "parent"],
+  "/list/results": ["admin", "teacher"],
   "/list/attendance": ["admin", "teacher", "student", "parent"],
   "/list/events": ["admin", "teacher", "student", "parent"],
   "/list/announcements": ["admin", "teacher", "student", "parent"],
+  "/list/termReport": ["admin", "teacher", "student", "parent"],
 };
 
 export const ordinal = (n: number) => {

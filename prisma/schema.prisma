@@ -76,6 +76,7 @@ model Subject {
   name     String    @unique
   teachers Teacher[]
   lessons  Lesson[]
+  exams    Exam[]
 }
 
 model Lesson {
@@ -90,7 +91,6 @@ model Lesson {
   class       Class        @relation(fields: [classId], references: [id])
   teacherId   String
   teacher     Teacher      @relation(fields: [teacherId], references: [id])
-  exams       Exam[]
   assignments Assignment[]
   attendance  Attendance[]
 }
@@ -121,8 +121,8 @@ model Exam {
   title     String
   startTime DateTime
   endTime   DateTime
-  lessonId  Int
-  lesson    Lesson   @relation(fields: [lessonId], references: [id])
+  subjectId Int?
+  subject   Subject? @relation(fields: [subjectId], references: [id])
   results   Result[]
 }
 
@@ -133,18 +133,15 @@ model Assignment {
   dueDate   DateTime
   lessonId  Int
   lesson    Lesson   @relation(fields: [lessonId], references: [id])
-  results   Result[]
 }
 
 model Result {
-  id           Int         @id @default(autoincrement())
-  score        Int
-  examId       Int?
-  exam         Exam?       @relation(fields: [examId], references: [id])
-  assignmentId Int?
-  assignment   Assignment? @relation(fields: [assignmentId], references: [id])
-  studentId    String
-  student      Student     @relation(fields: [studentId], references: [id])
+  id        Int     @id @default(autoincrement())
+  score     Int
+  examId    Int?
+  exam      Exam?   @relation(fields: [examId], references: [id])
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
 }
 
 model Attendance {
