@@ -69,7 +69,7 @@ const menuItems = [
       {
         icon: "/termReport.png",
         label: "Term Summary",
-        href: "/list/term-results",
+        href: "/list/term-summary",
         visible: ["admin", "teacher", "student", "parent"],
       },
       {

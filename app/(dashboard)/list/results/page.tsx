@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { Class, Exam, Prisma, Result, Subject, Teacher } from "@prisma/client";
+import { Prisma, Result } from "@prisma/client";
 import Image from "next/image";
 import { auth } from "@clerk/nextjs/server";
 import FormContainer from "@/components/ui/FormContainer";
@@ -48,8 +48,18 @@ const ResultListPage = async ({
       className: "hidden md:table-cell",
     },
     {
-      header: "Score",
-      accessor: "score",
+      header: "First term",
+      accessor: "firstTerm",
+      className: "hidden md:table-cell",
+    },
+    {
+      header: "Second term",
+      accessor: "secondTerm",
+      className: "hidden md:table-cell",
+    },
+    {
+      header: "Third term",
+      accessor: "thirdTerm",
       className: "hidden md:table-cell",
     },
 
@@ -58,11 +68,7 @@ const ResultListPage = async ({
       accessor: "class",
       className: "hidden md:table-cell",
     },
-    // {
-    //   header: "Date",
-    //   accessor: "date",
-    //   className: "hidden md:table-cell",
-    // },
+
     ...(role === "teacher"
       ? [
           {
@@ -81,7 +87,9 @@ const ResultListPage = async ({
       <td className="flex items-center gap-4 p-4">{item.exam.title}</td>
       <td>{item.student.name + " " + item.student.surname}</td>
       <td className="hidden md:table-cell">{item.exam.subject.name}</td>
-      <td className="hidden md:table-cell">{item.score}</td>
+      <td className="hidden md:table-cell">{item.firstTermscore}</td>
+      <td className="hidden md:table-cell">{item.secondTermscore}</td>
+      <td className="hidden md:table-cell">{item.ThirdTermscore}</td>
       <td className="hidden md:table-cell">{item.student.class.name}</td>
       <td>
         <div className="flex items-center gap-2">

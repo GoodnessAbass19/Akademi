@@ -40,6 +40,7 @@ const ResultForm = ({
   );
 
   const onSubmit = handleSubmit((data) => {
+    console.log(data);
     formAction(data);
   });
 
@@ -97,11 +98,31 @@ const ResultForm = ({
           )}
         </div>
         <InputField
-          label="Score"
-          name="score"
-          defaultValue={data?.score}
+          label="First Term Total"
+          name="firstTermScore"
+          defaultValue={data?.firstTermscore}
           register={register}
-          error={errors?.score}
+          error={errors?.firstTermscore}
+          placeholder="Student score"
+          iconAlt="score"
+          iconSrc="/icons/result.png"
+        />
+        <InputField
+          label="Second Term Total"
+          name="secondTermScore"
+          defaultValue={data?.secondTermscore}
+          register={register}
+          error={errors?.secondTermscore}
+          placeholder="Student score"
+          iconAlt="score"
+          iconSrc="/icons/result.png"
+        />
+        <InputField
+          label="Third Term Total"
+          name="thirdTermScore"
+          defaultValue={data?.ThirdTermscore}
+          register={register}
+          error={errors?.ThirdTermscore}
           placeholder="Student score"
           iconAlt="score"
           iconSrc="/icons/result.png"

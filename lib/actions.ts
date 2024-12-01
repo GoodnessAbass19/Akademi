@@ -769,7 +769,9 @@ export const createResult = async (
 
     await prisma.result.create({
       data: {
-        score: data.score,
+        firstTermscore: data.firstTermscore,
+        secondTermscore: data.secondTermscore,
+        ThirdTermscore: data.ThirdTermscore,
         examId: data.examId,
         studentId: data.studentId,
       },
@@ -793,7 +795,9 @@ export const updateResult = async (
         id: data.id,
       },
       data: {
-        score: data.score,
+        firstTermscore: data.firstTermscore,
+        secondTermscore: data.secondTermscore,
+        ThirdTermscore: data.ThirdTermscore,
         examId: data.examId,
         studentId: data.studentId,
       },
