@@ -6,12 +6,14 @@ import Table from "@/components/ui/Table";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
 import { auth } from "@clerk/nextjs/server";
-import { Class, Parent, Prisma, Student } from "@prisma/client";
+import { Class, Parent, Prisma, Result, Student } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import FormContainer from "@/components/ui/FormContainer";
 
-type StudentList = Student & { class: Class } & { parent: Parent };
+type StudentList = Student & { class: Class } & { parent: Parent } & {
+  result: Result;
+};
 
 const StudentListPage = async ({
   searchParams,
@@ -147,7 +149,7 @@ const StudentListPage = async ({
             // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
             //   <Image src="/delete.png" alt="" width={16} height={16} />
             // </button>
-            <FormModal table="student" type="delete" id={item.id} />
+            <FormContainer table="student" type="delete" id={item.id} />
           )}
         </div>
       </td>
@@ -162,13 +164,9 @@ const StudentListPage = async ({
     for (const [key, value] of Object.entries(queryParams)) {
       if (value !== undefined) {
         switch (key) {
-          case "teacherId":
+          case "classId":
             query.class = {
-              lessons: {
-                some: {
-                  teacherId: value,
-                },
-              },
+              name: { contains: value, mode: "insensitive" },
             };
             break;
           case "search":

@@ -99,7 +99,7 @@ const ResultForm = ({
         </div>
         <InputField
           label="First Term Total"
-          name="firstTermScore"
+          name="firstTermscore"
           defaultValue={data?.firstTermscore}
           register={register}
           error={errors?.firstTermscore}
@@ -109,7 +109,7 @@ const ResultForm = ({
         />
         <InputField
           label="Second Term Total"
-          name="secondTermScore"
+          name="secondTermscore"
           defaultValue={data?.secondTermscore}
           register={register}
           error={errors?.secondTermscore}
@@ -119,7 +119,7 @@ const ResultForm = ({
         />
         <InputField
           label="Third Term Total"
-          name="thirdTermScore"
+          name="ThirdTermscore"
           defaultValue={data?.ThirdTermscore}
           register={register}
           error={errors?.ThirdTermscore}
