@@ -69,7 +69,7 @@ const ResultListPage = async ({
       className: "hidden md:table-cell",
     },
 
-    ...(role === "teacher"
+    ...(role === "teacher" || role === "admin"
       ? [
           {
             header: "Actions",
@@ -201,9 +201,10 @@ const ResultListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/icons/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "teacher" && (
-              <FormContainer table="result" type="create" />
-            )}
+            {role === "teacher" ||
+              (role === "admin" && (
+                <FormContainer table="result" type="create" />
+              ))}
           </div>
         </div>
       </div>

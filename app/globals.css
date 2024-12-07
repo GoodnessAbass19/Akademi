@@ -138,6 +138,11 @@ body {
   }
 }
 
+@layer base {
+  img {
+    display: initial;
+  }
+}
 .react-calendar {
   width: 100% !important;
   /* height: 100% !important; */
