@@ -48,20 +48,6 @@ const StudentResultPage = async ({
     return notFound();
   }
 
-  const calculateGrade = (
-    average: number
-  ): { grade: string; comment: string } => {
-    if (average >= 75) return { grade: "A1", comment: "Excellent" };
-    if (average >= 71) return { grade: "B2", comment: "Very Good" };
-    if (average >= 65) return { grade: "B3", comment: "Good" };
-    if (average >= 61) return { grade: "C4", comment: "Credit" };
-    if (average >= 55) return { grade: "C5", comment: "Credit" };
-    if (average >= 50) return { grade: "C6", comment: "Credit" };
-    if (average >= 45) return { grade: "D7", comment: "Pass" };
-    if (average >= 40) return { grade: "E8", comment: "Pass" };
-    return { grade: "F9", comment: "Fail" };
-  };
-
   return (
     // <div className="p-6 max-w-5xl mx-auto">
     //   <div className="flex flex-row items-center justify-between max-w-4xl mx-auto">
@@ -176,8 +162,9 @@ const StudentResultPage = async ({
     //     </div>
     //   </div>
     // </div>
-
-    <Pdf student={student} />
+    <>
+      <Pdf student={student} />
+    </>
   );
 };
 

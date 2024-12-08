@@ -18,12 +18,36 @@ const Pdf = ({ student }: { student: StudentWithDetails }) => {
     return { grade: "F9", comment: "Fail" };
   };
 
-  async function handleOnClick() {
+  function hasFirstTermScores(studentResults: any[]) {
+    return studentResults.some((item) => item.firstTermscore !== null);
+  }
+  function hasSecondTermScores(studentResults: any[]) {
+    return studentResults.some((item) => item.secondTermscore !== null);
+  }
+
+  function hasThirdTermScores(studentResults: any[]) {
+    return studentResults.some((item) => item.ThirdTermscore !== null);
+  }
+
+  const showSecondTerm = hasSecondTermScores(student.result);
+  const showThirdTerm = hasThirdTermScores(student.result);
+  const hasAllTerm =
+    hasFirstTermScores(student.result) &&
+    hasSecondTermScores(student.result) &&
+    hasThirdTermScores(student.result);
+
+  async function handleOnClick(fileName: string) {
     const html2pdf = await require("html2pdf.js");
     const element = document.querySelector("#result");
-    html2pdf(element, {
-      margin: 2,
-    });
+    html2pdf()
+      .set({
+        filename: fileName, // Set the desired file name
+        margin: 2, // Define the margin
+        html2canvas: { scale: 4 }, // Optional: Improve PDF resolution
+        jsPDF: { orientation: "portrait" }, // Set the orientation (optional)
+      })
+      .from(element)
+      .save();
   }
 
   function getAcademicYear(month: number, year: number) {
@@ -47,7 +71,7 @@ const Pdf = ({ student }: { student: StudentWithDetails }) => {
 
   return (
     <div className="p-6 max-w-5xl mx-auto bg-lamaSkyLight" id="result">
-      <div className="flex flex-row items-center justify-between max-w-4xl mx-auto">
+      <div className="flex flex-row items-start justify-between max-w-4xl mx-auto">
         <Image src="/logo.svg" alt="logo" width={50} height={50} />
         <h2 className="text-2xl font-bold uppercase text-center  flex items-center flex-col justify-center space-y-2">
           Akademi International school
@@ -112,24 +136,60 @@ const Pdf = ({ student }: { student: StudentWithDetails }) => {
               <tr className="bg-gray-100">
                 <th className="px-4 py-2 border border-gray-300">Subject</th>
                 <th className="px-4 py-2 border border-gray-300">First Term</th>
+                {showSecondTerm && (
+                  <th className="px-4 py-2 border border-gray-300">
+                    Second Term
+                  </th>
+                )}
+                {showThirdTerm && (
+                  <th className="px-4 py-2 border border-gray-300">
+                    Third Term
+                  </th>
+                )}
+                {hasAllTerm && (
+                  <th className="px-4 py-2 border border-gray-300">
+                    Annual Avg
+                  </th>
+                )}
                 <th className="px-4 py-2 border border-gray-300">
-                  Second Term
-                </th>
-                <th className="px-4 py-2 border border-gray-300">Third Term</th>
-                <th className="px-4 py-2 border border-gray-300">Annual Avg</th>
-                <th className="px-4 py-2 border border-gray-300">
-                  Annual Grade
+                  {!hasAllTerm ? "Term Grade" : "Annual Grade"}
                 </th>
                 <th className="px-4 py-2 border border-gray-300"></th>
               </tr>
             </thead>
             <tbody>
               {student.result.map((item) => {
-                const firstTerm = item.firstTermscore || 0;
-                const secondTerm = item.secondTermscore || 0;
-                const thirdTerm = item.ThirdTermscore || 0;
-                const annualAverage = (firstTerm + secondTerm + thirdTerm) / 3;
-                const { grade, comment } = calculateGrade(annualAverage);
+                const firstTerm = item.firstTermscore ?? null; // Preserve null if not available
+                const secondTerm = item.secondTermscore ?? null;
+                const thirdTerm = item.ThirdTermscore ?? null;
+
+                let grade: string;
+                let comment: string;
+                let annualAverage: string | null = null; // Define annualAverage with initial value null
+
+                // Calculate based on available scores
+                if (
+                  thirdTerm !== null &&
+                  secondTerm !== null &&
+                  firstTerm !== null
+                ) {
+                  // All scores are available, calculate the annual average
+                  annualAverage = (
+                    (firstTerm + secondTerm + thirdTerm) /
+                    3
+                  ).toFixed(2);
+                  ({ grade, comment } = calculateGrade(Number(annualAverage)));
+                } else if (secondTerm !== null) {
+                  // Only second term is available
+                  ({ grade, comment } = calculateGrade(secondTerm));
+                } else if (firstTerm !== null) {
+                  // Only first term is available
+                  ({ grade, comment } = calculateGrade(firstTerm));
+                } else {
+                  // No scores available
+                  grade = "-";
+                  comment = "-";
+                }
 
                 return (
                   <tr key={item.id}>
@@ -139,15 +199,21 @@ const Pdf = ({ student }: { student: StudentWithDetails }) => {
                     <td className="px-4 py-2 border border-gray-300 text-center">
                       {firstTerm || "-"}
                     </td>
-                    <td className="px-4 py-2 border border-gray-300 text-center">
-                      {secondTerm || "-"}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300 text-center">
-                      {thirdTerm || "-"}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300 text-center">
-                      {annualAverage.toFixed(2)}
-                    </td>
+                    {showSecondTerm && (
+                      <td className="px-4 py-2 border border-gray-300 text-center">
+                        {secondTerm || "-"}
+                      </td>
+                    )}
+                    {showThirdTerm && (
+                      <td className="px-4 py-2 border border-gray-300 text-center">
+                        {thirdTerm || "-"}
+                      </td>
+                    )}
+                    {hasAllTerm && (
+                      <td className="px-4 py-2 border border-gray-300 text-center">
+                        {annualAverage}
+                      </td>
+                    )}
                     <td className="px-4 py-2 border border-gray-300 text-center">
                       {grade}
                     </td>
@@ -163,7 +229,9 @@ const Pdf = ({ student }: { student: StudentWithDetails }) => {
           <div className="flex justify-end items-end mt-4">
             <button
               data-html2canvas-ignore
-              onClick={handleOnClick}
+              onClick={() =>
+                handleOnClick(`${student.name}_${student.surname}_result.pdf`)
+              }
               className="bg-lamaSkyLight rounded-xl p-2 outline-none text-base font-semibold"
             >
               Download Result
