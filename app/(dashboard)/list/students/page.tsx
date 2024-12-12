@@ -10,6 +10,7 @@ import { Class, Parent, Prisma, Result, Student } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import FormContainer from "@/components/ui/FormContainer";
+import Dropdown from "@/components/ui/Dropdown";
 
 type StudentList = Student & { class: Class } & { parent: Parent } & {
   result: Result;
@@ -164,7 +165,7 @@ const StudentListPage = async ({
     for (const [key, value] of Object.entries(queryParams)) {
       if (value !== undefined) {
         switch (key) {
-          case "classId":
+          case "class":
             query.class = {
               name: { contains: value, mode: "insensitive" },
             };
@@ -192,6 +193,10 @@ const StudentListPage = async ({
     prisma.student.count({ where: query }),
   ]);
 
+  const studentClasses = await prisma.class.findMany({
+    select: { id: true, name: true },
+  });
+
   return (
     <div className="rounded-md flex-1 m-4 mt-0">
       {/* TOP */}
@@ -203,9 +208,10 @@ const StudentListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/icons/filter.png" alt="" width={14} height={14} />
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
+            {/* <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/icons/sort.png" alt="" width={14} height={14} />
-            </button>
+            </button> */}
+            <Dropdown studentClasses={studentClasses} />
             {role === "admin" && (
               // <button className="flex items-center justify-center rounded-full bg-[#4D44B5] py-1.5 px-4 space-x-2">
               //   <Image

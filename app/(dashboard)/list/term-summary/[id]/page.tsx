@@ -162,9 +162,9 @@ const StudentResultPage = async ({
     //     </div>
     //   </div>
     // </div>
-    <>
+    <div>
       <Pdf student={student} />
-    </>
+    </div>
   );
 };
 

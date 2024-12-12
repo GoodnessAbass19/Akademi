@@ -7,6 +7,7 @@ import TableSearch from "@/components/ui/Search";
 import FormContainer from "@/components/ui/FormContainer";
 import Table from "@/components/ui/Table";
 import Pagination from "@/components/ui/Pagination";
+import Dropdown from "@/components/ui/Dropdown";
 
 type AssignmentList = Assignment & {
   lesson: {
@@ -107,8 +108,8 @@ const AssignmentListPage = async ({
     for (const [key, value] of Object.entries(queryParams)) {
       if (value !== undefined) {
         switch (key) {
-          case "classId":
-            query.lesson.classId = parseInt(value);
+          case "class":
+            query.lesson.class = { name: value };
             break;
           case "teacherId":
             query.lesson.teacherId = value;
@@ -173,6 +174,10 @@ const AssignmentListPage = async ({
     prisma.assignment.count({ where: query }),
   ]);
 
+  const studentClasses = await prisma.class.findMany({
+    select: { id: true, name: true },
+  });
+
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
       {/* TOP */}
@@ -186,9 +191,10 @@ const AssignmentListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/icons/filter.png" alt="" width={14} height={14} />
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
+            {/* <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/icons/sort.png" alt="" width={14} height={14} />
-            </button>
+            </button> */}
+            <Dropdown studentClasses={studentClasses} />
             {role === "admin" ||
               (role === "teacher" && (
                 <FormContainer table="assignment" type="create" />

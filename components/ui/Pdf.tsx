@@ -2,6 +2,9 @@
 import Image from "next/image";
 import { StudentWithDetails } from "../../app/(dashboard)/list/term-summary/[id]/page";
 import { Button } from "./button";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Pdf = ({ student }: { student: StudentWithDetails }) => {
   const calculateGrade = (
@@ -68,12 +71,23 @@ const Pdf = ({ student }: { student: StudentWithDetails }) => {
   const currentMonth = currentDate.getMonth() + 1; // getMonth() is 0-based
   const currentYear = currentDate.getFullYear();
   const year = getAcademicYear(currentMonth, currentYear);
+  const router = useRouter();
+
+  // useEffect(() => {
+  if (!hasFirstTermScores(student.result)) {
+    router.push(`/list/term-summary`);
+    toast(`Result not ready`);
+  }
+  // }, [student.result, router]);
 
   return (
-    <div className="p-6 max-w-5xl mx-auto bg-lamaSkyLight" id="result">
-      <div className="flex flex-row items-start justify-between max-w-4xl mx-auto">
+    <div
+      className="p-6 md:max-w-5xl w-full mx-auto bg-lamaSkyLight"
+      id="result"
+    >
+      <div className="flex flex-row items-start justify-between md:max-w-4xl w-full mx-auto">
         <Image src="/logo.svg" alt="logo" width={50} height={50} />
-        <h2 className="text-2xl font-bold uppercase text-center  flex items-center flex-col justify-center space-y-2">
+        <h2 className="md:text-2xl text-lg font-bold uppercase text-center  flex items-center flex-col justify-center space-y-2">
           Akademi International school
           <span className="text-sm font-medium capitalize">
             report card for academic year {year}
@@ -85,39 +99,40 @@ const Pdf = ({ student }: { student: StudentWithDetails }) => {
             alt={student.name}
             width={150}
             height={150}
+            className="object-center"
           />
         </div>
       </div>
-      <div className="max-w-4xl mx-auto pt-6">
+      <div className="md:max-w-4xl w-full mx-auto pt-6">
         {/* Student Information */}
         <div className="mb-6">
-          <table className="table-auto border border-gray-300 w-full text-left">
-            <tbody>
-              <tr>
-                <th className="px-4 py-2 border border-gray-300 bg-gray-100 w-1/3">
+          <table className="table-auto border border-gray-300 w-full text-left table">
+            <tbody className="table-row-group">
+              <tr className="table-row">
+                <th className="px-4 py-2 border border-gray-300 md:table-cell bg-gray-100 w-1/3">
                   Name
                 </th>
-                <td className="px-4 py-2 border border-gray-300">
+                <td className="px-4 py-2 border border-gray-300 md:table-cell">
                   {student.name} {student.surname}
                 </td>
               </tr>
-              <tr>
-                <th className="px-4 py-2 border border-gray-300 bg-gray-100">
+              <tr className="table-row">
+                <th className="px-4 py-2 border border-gray-300 md:table-cell bg-gray-100">
                   Student ID
                 </th>
-                <td className="px-4 py-2 border border-gray-300">
+                <td className="px-4 py-2 border border-gray-300 md:table-cell">
                   {student.id}
                 </td>
               </tr>
-              <tr>
-                <th className="px-4 py-2 border border-gray-300 bg-gray-100">
+              <tr className="table-row">
+                <th className="px-4 py-2 border border-gray-300 md:table-cell bg-gray-100">
                   Sex
                 </th>
-                <td className="px-4 py-2 border border-gray-300">
+                <td className="px-4 py-2 border border-gray-300 md:table-cell">
                   {student.sex}
                 </td>
               </tr>
-              <tr>
+              <tr className="table-row">
                 <th className="px-4 py-2 border border-gray-300 bg-gray-100">
                   Class
                 </th>
@@ -131,33 +146,35 @@ const Pdf = ({ student }: { student: StudentWithDetails }) => {
 
         {/* Student Results */}
         <div>
-          <table className="table-auto border-collapse border border-gray-300 w-full">
+          <table className="table-auto border-collapse border border-gray-300 w-full table box-border">
             <thead>
-              <tr className="bg-gray-100">
-                <th className="px-4 py-2 border border-gray-300">Subject</th>
+              <tr className="bg-gray-100 table-row">
+                <th className="px-4 py-2 border border-gray-300 md:table-cell">
+                  Subject
+                </th>
                 <th className="px-4 py-2 border border-gray-300">First Term</th>
                 {showSecondTerm && (
-                  <th className="px-4 py-2 border border-gray-300">
+                  <th className="px-4 py-2 border border-gray-300 md:table-cell">
                     Second Term
                   </th>
                 )}
                 {showThirdTerm && (
-                  <th className="px-4 py-2 border border-gray-300">
+                  <th className="px-4 py-2 border border-gray-300 md:table-cell">
                     Third Term
                   </th>
                 )}
                 {hasAllTerm && (
-                  <th className="px-4 py-2 border border-gray-300">
+                  <th className="px-4 py-2 border border-gray-300 md:table-cell">
                     Annual Avg
                   </th>
                 )}
-                <th className="px-4 py-2 border border-gray-300">
+                <th className="px-4 py-2 border border-gray-300 md:table-cell">
                   {!hasAllTerm ? "Term Grade" : "Annual Grade"}
                 </th>
-                <th className="px-4 py-2 border border-gray-300"></th>
+                <th className="px-4 py-2 border border-gray-300 md:table-cell"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="table-row-group">
               {student.result.map((item) => {
                 const firstTerm = item.firstTermscore ?? null; // Preserve null if not available
                 const secondTerm = item.secondTermscore ?? null;
@@ -192,7 +209,7 @@ const Pdf = ({ student }: { student: StudentWithDetails }) => {
                 }
 
                 return (
-                  <tr key={item.id}>
+                  <tr key={item.id} className="table-row">
                     <td className="px-4 py-2 border border-gray-300 text-center">
                       {item.exam?.subject?.name || "-"}
                     </td>
@@ -225,19 +242,19 @@ const Pdf = ({ student }: { student: StudentWithDetails }) => {
               })}
             </tbody>
           </table>
-
-          <div className="flex justify-end items-end mt-4">
-            <button
-              data-html2canvas-ignore
-              onClick={() =>
-                handleOnClick(`${student.name}_${student.surname}_result.pdf`)
-              }
-              className="bg-lamaSkyLight rounded-xl p-2 outline-none text-base font-semibold"
-            >
-              Download Result
-            </button>
-          </div>
         </div>
+      </div>
+      {/* Download Button */}
+      <div className="flex justify-end mt-6">
+        <button
+          data-html2canvas-ignore
+          onClick={() =>
+            handleOnClick(`${student.name}_${student.surname}_result.pdf`)
+          }
+          className="bg-blue-500 text-white rounded-xl px-6 py-2 text-sm md:text-base font-semibold transition"
+        >
+          Download Result
+        </button>
       </div>
     </div>
   );
