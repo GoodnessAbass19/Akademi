@@ -84,9 +84,9 @@ const ParentForm = ({
                 )
               )}
             </select>
-            {errors.results?.message && (
+            {errors.lessonId?.message && (
               <p className="text-xs text-red-400">
-                {errors.results.message.toString()}
+                {errors.lessonId.message.toString()}
               </p>
             )}
           </div>

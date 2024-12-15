@@ -21,6 +21,7 @@ const TermSummaryPage = async ({
 }) => {
   const { userId, sessionClaims } = await auth();
   const role = (sessionClaims?.metadata as { role?: string })?.role;
+  const currentUserId = userId;
   const { page, ...queryParams } = searchParams;
   const p = page ? parseInt(page) : 1;
 
@@ -102,6 +103,23 @@ const TermSummaryPage = async ({
     }
   }
 
+  switch (role) {
+    case "admin":
+      break;
+    case "teacher":
+      break;
+
+    case "student":
+      query.id = currentUserId!;
+      break;
+
+    case "parent":
+      query.parentId = currentUserId!;
+      break;
+    default:
+      break;
+  }
+
   const [data, count] = await prisma.$transaction([
     prisma.student.findMany({
       where: query,
@@ -133,7 +151,11 @@ const TermSummaryPage = async ({
             {/* <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/icons/sort.png" alt="" width={14} height={14} />
             </button> */}
-            <Dropdown studentClasses={studentClasses} />
+            {role === "admin" || role === "teacher" ? (
+              <Dropdown studentClasses={studentClasses} />
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>
