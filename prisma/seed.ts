@@ -140,7 +140,7 @@ async function main() {
         title: `Exam ${i}`,
         startTime: new Date(new Date().setHours(new Date().getHours() + 1)),
         endTime: new Date(new Date().setHours(new Date().getHours() + 2)),
-        lessonId: (i % 30) + 1,
+        subjectId: (i % 30) + 1,
       },
     });
   }
@@ -161,7 +161,9 @@ async function main() {
   for (let i = 1; i <= 10; i++) {
     await prisma.result.create({
       data: {
-        score: 90,
+        firstTermscore: 90,
+        secondTermscore: 56,
+        ThirdTermscore: 78,
         studentId: `student${i}`,
         ...(i <= 5 ? { examId: i } : { assignmentId: i - 5 }),
       },
