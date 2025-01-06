@@ -1,6 +1,7 @@
 "use server";
 
 import {
+  AnnouncementSchema,
   AssignmentSchema,
   ClassSchema,
   ExamSchema,
@@ -825,6 +826,85 @@ export const deleteResult = async (
       where: {
         id: parseInt(id),
         // ...(role === "teacher" ? { lesson: { teacherId: userId! } } : {}),
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: true };
+  }
+};
+
+export const createAnnouncement = async (
+  currentState: CurrentState,
+  data: AnnouncementSchema
+) => {
+  try {
+    await prisma.announcement.create({
+      data: {
+        title: data.title,
+        classId: data?.classId,
+        date: data.date,
+        description: data.description,
+      },
+    });
+
+    return { success: true, error: false, message: "" };
+  } catch (err: any) {
+    // Check if the error is a unique constraint violation
+    if (err.code === "P2002" && err.meta?.target?.includes("name")) {
+      return {
+        success: false,
+        error: true,
+        message: "This ANnouncement already exists.",
+      };
+    }
+
+    console.error("Unexpected error:", err);
+    return {
+      success: false,
+      error: true,
+      message: "An unexpected error occurred.",
+    };
+  }
+};
+
+export const updateAnnouncement = async (
+  currentState: CurrentState,
+  data: AnnouncementSchema
+) => {
+  try {
+    await prisma.announcement.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        title: data.title,
+        classId: data.classId,
+        date: data.date,
+        description: data.description,
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false, message: "" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: true, message: "" };
+  }
+};
+
+export const deleteAnnouncement = async (
+  currentState: CurrentState,
+  data: FormData
+) => {
+  const id = data.get("id") as string;
+  try {
+    await prisma.announcement.delete({
+      where: {
+        id: parseInt(id),
       },
     });
 

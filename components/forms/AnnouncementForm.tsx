@@ -8,10 +8,14 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Form } from "../ui/form";
 import InputField from "../ui/InputField";
-import { assignmentSchema, AssignmentSchema } from "@/lib/formValidationSchema";
-import { createAssignment, updateAssignment } from "@/lib/actions";
+import { createAnnouncement, updateAnnouncement } from "@/lib/actions";
+import {
+  announcementSchema,
+  AnnouncementSchema,
+} from "@/lib/formValidationSchema";
+import { Textarea } from "../ui/textarea";
 
-const AssignmentForm = ({
+const AnnouncementForm = ({
   type,
   data,
   setOpen,
@@ -22,8 +26,8 @@ const AssignmentForm = ({
   setOpen: Dispatch<SetStateAction<boolean>>;
   relatedData?: any;
 }) => {
-  const form = useForm<AssignmentSchema>({
-    resolver: zodResolver(assignmentSchema),
+  const form = useForm<AnnouncementSchema>({
+    resolver: zodResolver(announcementSchema),
   });
   const {
     register,
@@ -32,7 +36,7 @@ const AssignmentForm = ({
   } = form;
 
   const [state, formAction] = useFormState(
-    type === "create" ? createAssignment : updateAssignment,
+    type === "create" ? createAnnouncement : updateAnnouncement,
     {
       success: false,
       error: false,
@@ -48,7 +52,9 @@ const AssignmentForm = ({
 
   useEffect(() => {
     if (state.success) {
-      toast(`Parent has been ${type === "create" ? "created" : "updated"}!`);
+      toast(
+        `Announcement has been ${type === "create" ? "created" : "updated"}!`
+      );
       setOpen(false);
       router.refresh();
     }
@@ -64,49 +70,41 @@ const AssignmentForm = ({
             defaultValue={data?.title}
             register={register}
             error={errors?.title}
-            placeholder="Assignment Title"
+            placeholder="Announcement Title"
           />
 
           <div className="flex flex-col gap-2 w-full md:w-full">
             <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Lesson
+              Class (optional)
             </label>
             <select
               className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-              {...register("lessonId")}
+              {...register("classId")}
               defaultValue={data?.lessonsId}
             >
-              {relatedData.lesson.map(
-                (lesson: { id: string; name: string }) => (
-                  <option value={lesson.id} key={lesson.id}>
-                    {lesson.name}
-                  </option>
-                )
-              )}
+              {relatedData.class.map((lesson: { id: string; name: string }) => (
+                <option value={lesson.id} key={lesson.id}>
+                  {lesson.name}
+                </option>
+              ))}
             </select>
-            {errors.lessonId?.message && (
+            {errors.classId?.message && (
               <p className="text-xs text-red-400">
-                {errors.lessonId.message.toString()}
+                {errors.classId.message.toString()}
               </p>
             )}
           </div>
 
           <InputField
-            name="startDate"
-            label="Start Date"
-            defaultValue={data?.startDate.toISOString().split("T")[0]}
+            name="date"
+            label="Date"
+            defaultValue={data?.date.toISOString().split("T")[0]}
             register={register}
-            error={errors?.startDate}
+            error={errors?.date}
             type="date"
           />
-          <InputField
-            name="dueDate"
-            label="Due Date"
-            defaultValue={data?.dueDate.toISOString().split("T")[0]}
-            register={register}
-            error={errors?.dueDate}
-            type="date"
-          />
+
+          <Textarea name="description" placeholder="Type your message here." />
 
           {data && (
             <InputField
@@ -130,4 +128,4 @@ const AssignmentForm = ({
   );
 };
 
-export default AssignmentForm;
+export default AnnouncementForm;
