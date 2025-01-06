@@ -88,7 +88,7 @@ const AnnouncementPage = async ({
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-4 mt-4">
+      {/* <div className="flex flex-col gap-4 mt-4">
         {data.map((item) => (
           <div
             key={item.id}
@@ -103,10 +103,10 @@ const AnnouncementPage = async ({
             <p className="text-sm text-gray-400 mt-1">{item.description}</p>
           </div>
         ))}
-      </div>
-
+      </div> */}
+      <Announcements />
       {/* PAGINATION */}
-      <Pagination page={p} count={count} />
+      {/* <Pagination page={p} count={count} /> */}
     </div>
   );
 };
