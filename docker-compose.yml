@@ -2,7 +2,7 @@ version: '4.36'
 
 services:
   postgress:
-    image: postgres:15
+    image: postgres:latest
     container_name: postgres_db
     environment:
       POSTGRES_USER: goodness
@@ -19,7 +19,7 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - DATABASE_URL: postgresql://goodness:goodness_20@localhost:5432/school
+      - DATABASE_URL: postgresql://goodness:goodness_20@postgres:5432/school
     depends_on:
       - postgres
 
