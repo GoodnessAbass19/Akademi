@@ -4,6 +4,7 @@ import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import NextTopLoader from "nextjs-toploader";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,8 +29,9 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning={true}>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <NextTopLoader height={5} speed={800} />
           {children}
           <ToastContainer position="bottom-right" theme="dark" />
         </body>
