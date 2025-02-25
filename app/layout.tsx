@@ -31,7 +31,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning={true}>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          {/* <NextTopLoader height={5} speed={800} /> */}
+          <NextTopLoader height={5} speed={800} />
           {children}
           <ToastContainer position="bottom-right" theme="dark" />
         </body>
