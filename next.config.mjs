@@ -1,4 +1,11 @@
-/** @type {import('next').NextConfig} */
+// next.config.mjs
+
+import autoCert from "anchor-pki/auto-cert/integrations/next";
+
+const withAutoCert = autoCert({
+  enabledEnv: "development",
+});
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -8,4 +15,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withAutoCert(nextConfig);

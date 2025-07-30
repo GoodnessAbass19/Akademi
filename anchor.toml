@@ -1,0 +1,10 @@
+[lcl-host]
+realm-apid = 'localhost'
+
+[org]
+apid = 'goodnessabass19'
+
+[service]
+apid = 'my-project'
+category = 'javascript'
+cert-style = 'acme'
