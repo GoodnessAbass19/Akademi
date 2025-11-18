@@ -1,7 +1,7 @@
-version: '4.36'
+version: "3.8" # Changed to a standard Docker Compose version
 
 services:
-  postgress:
+  postgres: # Changed from 'postgress' to 'postgres'
     image: postgres:latest
     container_name: postgres_db
     environment:
@@ -9,19 +9,25 @@ services:
       POSTGRES_PASSWORD: goodness_20
       POSTGRES_DB: school
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    
+    healthcheck: # Added a basic healthcheck for the database
+      test: ["CMD-SHELL", "pg_isready -U goodness -d school"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   app:
     build: .
     container_name: nextjs_app
     ports:
-      - '3000:3000'
+      - "3000:3000"
     environment:
-      - DATABASE_URL: postgresql://goodness:goodness_20@postgres:5432/school
+      DATABASE_URL: postgresql://goodness:goodness_20@postgres:5432/school
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy # Ensure postgres is healthy before starting app
 
 volumes:
   postgres_data:
