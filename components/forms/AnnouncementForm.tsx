@@ -33,6 +33,7 @@ const AnnouncementForm = ({
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = form;
 
   const [state, formAction] = useFormState(
@@ -45,6 +46,7 @@ const AnnouncementForm = ({
   );
 
   const onSubmit = handleSubmit((data) => {
+    console.log(data);
     formAction({ ...data });
   });
 
@@ -80,7 +82,7 @@ const AnnouncementForm = ({
             <select
               className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
               {...register("classId")}
-              defaultValue={data?.lessonsId}
+              defaultValue={data?.classId}
             >
               {relatedData.class.map((lesson: { id: string; name: string }) => (
                 <option value={lesson.id} key={lesson.id}>
@@ -104,7 +106,20 @@ const AnnouncementForm = ({
             type="date"
           />
 
-          <Textarea name="description" placeholder="Type your message here." />
+          <div className="flex flex-col gap-2 w-full md:col-span-2">
+            <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              Description
+            </label>
+            <Textarea
+              placeholder="Type your message here."
+              {...register("description")}
+            />
+            {errors.description?.message && (
+              <p className="text-xs text-red-400">
+                {errors.description.message.toString()}
+              </p>
+            )}
+          </div>
 
           {data && (
             <InputField
@@ -120,7 +135,10 @@ const AnnouncementForm = ({
         {state.error && (
           <span className="text-red-500">Something went wrong!</span>
         )}
-        <button className="bg-[#4D44B5] text-white p-2 rounded-md w-full text-center font-semibold">
+        <button
+          type="submit"
+          className="bg-[#4D44B5] text-white p-2 rounded-md w-full text-center font-semibold"
+        >
           {type === "create" ? "Create" : "Update"}
         </button>
       </form>

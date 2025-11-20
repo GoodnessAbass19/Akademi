@@ -90,8 +90,8 @@ const StudentListPage = async ({
           {/* <p className="text-xs text-gray-500">{item.class}</p> */}
         </div>
       </td>
-      <td className="hidden md:table-cell font-semibold text-[#4D44B5] ">
-        #{item.id}
+      <td className="hidden md:table-cell font-semibold text-[#4D44B5] text-xs">
+        #{item.id.substring(0, 8).toUpperCase()}
       </td>
       <td className="hidden md:table-cell">
         {new Intl.DateTimeFormat("en-GB").format(item.birthday)}
